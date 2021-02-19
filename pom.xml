@@ -3,13 +3,12 @@
         <repository>
             <id>TestNG-Cucumber</id>
             <name>testng-cucumber</name>
-            <url>https://github.com/igniteram</url>
         </repository>
     </repositories>
 
     <modelVersion>4.0.0</modelVersion>
   <groupId>TestngCucumber</groupId>
-  <artifactId>TestngCucumberBoilerPlate</artifactId>
+  <artifactId>TestngCucumberSelenium</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 <dependencies>
 
