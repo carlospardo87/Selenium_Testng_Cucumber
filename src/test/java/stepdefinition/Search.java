@@ -1,8 +1,9 @@
 package stepdefinition;
 
+import io.cucumber.java.en.Given;
 import org.testng.Assert;
 
-import cucumber.api.java.en.Given;
+
 import main.CucumberRunner;
 
 public class Search extends CucumberRunner {
@@ -11,13 +12,13 @@ public class Search extends CucumberRunner {
 	public void verifyPageTitle(String text) throws Throwable {
 
 		String title = driver.getTitle();
-			if(text == "google") {
+			if(text.equals("google")) {
 				Assert.assertEquals(title, "Google");
-			} else if(text == "cucumber") {
+			} else if(text.equals("cucumber")) {
 				Assert.assertEquals(title, "cucumber - Google Search");
-			} else if(text == "junit") {
-				Assert.assertEquals(title, "junit - Google Search");
-			}   		
+			} else if(text.equals("junit")) {
+				Assert.assertEquals(title, "juni - Google Search");
+			}
 	}
 
 }

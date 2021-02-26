@@ -1,7 +1,8 @@
 package stepdefinition;
 
-import cucumber.api.java.en.Then;
+import io.cucumber.java.en.Then;
 import main.CucumberRunner;
+import org.assertj.core.api.Assertions;
 import pages.SearchPage;
 
 public class Clear extends CucumberRunner {
@@ -12,6 +13,11 @@ public class Clear extends CucumberRunner {
 	public void clearSearchBox() throws Throwable {
 		explicitWait(page.searchBox);
 		page.searchBox.clear();
+		//Assertions.assertThat("0").isEqualTo("1");
 	}
 
+	@Then("^I clear search the box$")
+	public void iClearSearchTheBox() {
+		Assertions.assertThat("0").isEqualTo("1");
+	}
 }

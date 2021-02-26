@@ -5,9 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Properties;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import com.google.common.io.Files;
@@ -22,26 +20,33 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.*;
 
-import cucumber.api.CucumberOptions;
-import cucumber.api.testng.AbstractTestNGCucumberTests;
+
+
+import io.cucumber.testng.CucumberOptions;
+import io.cucumber.testng.AbstractTestNGCucumberTests;
 import helpers.ReportHelper;
 
-@CucumberOptions(strict = true,
+@CucumberOptions(
 		monochrome = true,
 		features = "src/test/resources/features",
 		glue = "stepdefinition",
-		plugin = {"pretty","json:target/cucumber.json"},
-		tags = { "@Regression,@JunitScenario,@TestngScenario" })
+		plugin = {"pretty","json:target/cucumber.json"}
+		)
+		//tags = { "@Regression,@JunitScenario,@TestngScenario" })
 
 public class CucumberRunner extends AbstractTestNGCucumberTests {
 
 	public static Properties config = null;
 	public static WebDriver driver = null;
+
+
+	/*@Override
+	@DataProvider(parallel = true)
+	public Object[][] scenarios() {
+		return super.scenarios();
+	}*/
 
 	public void LoadConfigProperty() throws IOException {
 		config = new Properties();
@@ -57,9 +62,21 @@ public class CucumberRunner extends AbstractTestNGCucumberTests {
 		options.addArguments("--disable-gpu");
 		options.addArguments("--no-sandbox");
 		options.addArguments("--disable-dev-shm-usage");
-		options.setExperimentalOption("useAutomationExtension", false);
-		driver = new ChromeDriver(options);
 
+
+		Map<String, Object> deviceMetrics = new HashMap<String, Object>();
+		deviceMetrics.put("width", 375);
+		deviceMetrics.put("height", 812);
+		deviceMetrics.put("pixelRatio", 3.0);
+		Map<String, Object> mobileEmulation = new HashMap<String, Object>();
+		mobileEmulation.put("deviceMetrics", deviceMetrics);
+		mobileEmulation.put("userAgent", "Mozilla/5.0 (Linux; Android 8.0.0;" +
+						"iPhone X Build/OPD1.170816.004) AppleWebKit/537.36 (KHTML, like Gecko) " +
+		"Chrome/67.0.3396.99 Mobile Safari/537.36");
+		options.setExperimentalOption("mobileEmulation", mobileEmulation);
+
+
+		driver = new ChromeDriver(options);
 	}
 
 	public void openBrowser() throws Exception {
@@ -103,26 +120,24 @@ public class CucumberRunner extends AbstractTestNGCucumberTests {
 		return cal1;
 	}
 
-	@BeforeSuite(alwaysRun = true)
+
+	/**
+	 * Setting up Hooks
+	 *
+	 */
+
+	@BeforeMethod(alwaysRun = true)           // Should be Before feature
 	public void setUp() throws Exception {
 		openBrowser();
 		maximizeWindow();
 		implicitWait(30);
 		deleteAllCookies();
 		setEnv();
+		pageLoad(30);
 	}
 
-	@AfterClass(alwaysRun = true)
-	public void takeScreenshot() throws IOException {
-		File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-		File trgtFile = new File(System.getProperty("user.dir") + "//screenshots/screenshot.png");
-		trgtFile.getParentFile().mkdir();
-		trgtFile.createNewFile();
-		Files.copy(scrFile, trgtFile);
 
-	}
-
-	@AfterMethod(alwaysRun = true)
+	@AfterMethod(alwaysRun = true)     // Should be After feature
 	public void tearDown(ITestResult result) throws IOException {
 		if (!result.isSuccess()) {
 			File imageFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
@@ -133,15 +148,35 @@ public class CucumberRunner extends AbstractTestNGCucumberTests {
 			failureImageFile.createNewFile();
 			Files.copy(imageFile, failureImageFile);
 		}
-
+		driver.quit();
 	}
+
+
+
 	@AfterSuite(alwaysRun=true)
 	public void generateHTMLReports() {
 		ReportHelper.generateCucumberReport();
 	}
 
-	@AfterSuite(alwaysRun = true)
-	public void quit() throws IOException, InterruptedException {
-		driver.quit();
-	}
+
 }
+
+/*
+@After
+    public void teardow(Scenario scenario) {
+        if (scenario.isFailed()) {
+            byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+            scenario.attach(screenshot, "image/png", "name");
+        }
+    }
+
+	@AfterClass(alwaysRun = true)
+	public void takeScreenshot() throws IOException {
+		File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+		File trgtFile = new File(System.getProperty("user.dir") + "//screenshots/screenshot.png");
+		trgtFile.getParentFile().mkdir();
+		trgtFile.createNewFile();
+		Files.copy(scrFile, trgtFile);
+
+	}*/
+
