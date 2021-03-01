@@ -5,7 +5,6 @@ Feature: To search cucumber in google
       When I click search button
       Then I clear search textbox
 
-
     Examples:
       | type |
       |cucumber|

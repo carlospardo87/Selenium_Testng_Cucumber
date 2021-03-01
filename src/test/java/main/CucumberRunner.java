@@ -10,7 +10,10 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.common.io.Files;
 
+import io.cucumber.java.BeforeStep;
+import io.cucumber.java.Scenario;
 import io.github.bonigarcia.wdm.WebDriverManager;
+
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -32,7 +35,7 @@ import helpers.ReportHelper;
 		monochrome = true,
 		features = "src/test/resources/features",
 		glue = "stepdefinition",
-		plugin = {"pretty","json:target/cucumber.json"}
+		plugin = {"pretty","json:target/cucumber.json", "timeline:target/timeline/" , "html:target/cucumber-pretty"}
 		)
 		//tags = { "@Regression,@JunitScenario,@TestngScenario" })
 
@@ -75,9 +78,12 @@ public class CucumberRunner extends AbstractTestNGCucumberTests {
 		"Chrome/67.0.3396.99 Mobile Safari/537.36");
 		options.setExperimentalOption("mobileEmulation", mobileEmulation);
 
-
-		//driver = new ChromeDriver(options);
 		driver.set(new ChromeDriver(options));
+	}
+
+	public static WebDriver driver()
+	{
+		return driver.get();
 	}
 
 	public void openBrowser() throws Exception {
@@ -88,36 +94,37 @@ public class CucumberRunner extends AbstractTestNGCucumberTests {
 	}
 
 	public void maximizeWindow() {
-		driver.get().manage().window().maximize();
+		driver().manage().window().maximize();
 	}
 
 	public void implicitWait(int time) {
-		driver.get().manage().timeouts().implicitlyWait(time, TimeUnit.SECONDS);
+		driver().manage().timeouts().implicitlyWait(time, TimeUnit.SECONDS);
 	}
 
 	public void explicitWait(WebElement element) {
-		WebDriverWait wait = new WebDriverWait(driver.get(), 3000);
+		WebDriverWait wait = new WebDriverWait(driver(), 3000);
 		wait.until(ExpectedConditions.visibilityOf(element));
 	}
 
 	public void pageLoad(int time) {
-		driver.get().manage().timeouts().pageLoadTimeout(time, TimeUnit.SECONDS);
+		driver().manage().timeouts().pageLoadTimeout(time, TimeUnit.SECONDS);
 	}
 
 	public void deleteAllCookies() {
-		driver.get().manage().deleteAllCookies();
+		driver().manage().deleteAllCookies();
 	}
 
 	public void setEnv() throws Exception {
 		LoadConfigProperty();
 		String baseUrl = config.getProperty("siteUrl");
-		driver.get().get(baseUrl);
+		driver().get(baseUrl);
 	}
 
 	public static String currentDateTime() {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Calendar cal = Calendar.getInstance();
-		String cal1 = dateFormat.format(cal.getTime());
+		String cal1;
+		cal1 = dateFormat.format(cal.getTime());
 		return cal1;
 	}
 
@@ -141,22 +148,24 @@ public class CucumberRunner extends AbstractTestNGCucumberTests {
 	@AfterMethod(alwaysRun = true)     // Should be After feature
 	public void tearDown(ITestResult result) throws IOException {
 		if (!result.isSuccess()) {
-			File imageFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+			File imageFile = ((TakesScreenshot) driver()).getScreenshotAs(OutputType.FILE);
 			String failureImageFileName = result.getMethod().getMethodName()
 					+ new SimpleDateFormat("MM-dd-yyyy_HH-ss").format(new GregorianCalendar().getTime()) + ".png";
 			File failureImageFile = new File(System.getProperty("user.dir") + "//screenshots//" + failureImageFileName);
-			failureImageFile.getParentFile().mkdir();
-			failureImageFile.createNewFile();
 			Files.copy(imageFile, failureImageFile);
-		}
-		driver.get().quit();
-	}
 
+			driver().close();
+		} else {
+			driver().quit();
+		}
+
+	}
 
 
 	@AfterSuite(alwaysRun=true)
 	public void generateHTMLReports() {
 		ReportHelper.generateCucumberReport();
+
 	}
 
 

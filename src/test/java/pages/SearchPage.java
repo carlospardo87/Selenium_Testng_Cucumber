@@ -7,6 +7,6 @@ import main.CucumberRunner;
 
 public class SearchPage extends CucumberRunner {
 
-    public WebElement searchBox = driver.get().findElement(By.cssSelector("input[name='q']"));
+    public WebElement searchBox = driver().findElement(By.cssSelector("input[name='q']"));
     
 }

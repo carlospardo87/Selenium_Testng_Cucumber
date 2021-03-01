@@ -13,14 +13,17 @@ public class ReportHelper {
 
     public static void generateCucumberReport() {
         File reportOutputDirectory = new File("target");
-        ArrayList<String> jsonFiles = new ArrayList<String>();
+        ArrayList<String> jsonFiles = new ArrayList<>();
         jsonFiles.add("target/cucumber.json");
 
         String projectName = "testng-cucumber";
+        String buildNumber = "1";
+
+
 
         Configuration configuration = new Configuration(reportOutputDirectory, projectName);
-        //configuration.setBuildNumber("45");
-        //configuration.setRunWithJenkins(true);
+        configuration.setBuildNumber(buildNumber);
+        //configuration.setRunWithJenkins(false);
         //configuration.setTagsToExcludeFromChart("@");
 
         configuration.addClassifications("Platform", System.getProperty("os.name"));
@@ -35,14 +38,17 @@ public class ReportHelper {
 
 
         // optionally add metadata presented on main page via properties file
-        List<String> classificationFiles = new ArrayList<String>();
+        List<String> classificationFiles = new ArrayList<>();
         classificationFiles.add("src/test/resources/config/config.properties");
         configuration.addClassificationFiles(classificationFiles);
+        configuration.addClassifications("Parallel", "TRUE");
 
 
         ReportBuilder reportBuilder = new ReportBuilder(jsonFiles, configuration);
         //reportBuilder.generateReports();
         Reportable result = reportBuilder.generateReports();
     }
+
+
 
 }

@@ -9,16 +9,20 @@ import main.CucumberRunner;
 public class Search extends CucumberRunner {
 
 	@Given("^I am on \"(.*?)\" search page$")
-	public void verifyPageTitle(String text) throws Throwable {
+	public void verifyPageTitle(String text) {
 
-		String title = driver.get().getTitle();
-			if(text.equals("google")) {
+		String title = driver().getTitle();
+		switch (text) {
+			case "google":
 				Assert.assertEquals(title, "Google");
-			} else if(text.equals("cucumber")) {
+				break;
+			case "cucumber":
 				Assert.assertEquals(title, "cucumber - Google Search");
-			} else if(text.equals("junit")) {
+				break;
+			case "junit":
 				Assert.assertEquals(title, "juni - Google Search");
-			}
+				break;
+		}
 	}
 
 }
