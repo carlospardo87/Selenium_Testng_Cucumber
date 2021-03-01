@@ -39,14 +39,14 @@ import helpers.ReportHelper;
 public class CucumberRunner extends AbstractTestNGCucumberTests {
 
 	public static Properties config = null;
-	public static WebDriver driver = null;
+	public static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
 
-	/*@Override
+	@Override
 	@DataProvider(parallel = true)
 	public Object[][] scenarios() {
 		return super.scenarios();
-	}*/
+	}
 
 	public void LoadConfigProperty() throws IOException {
 		config = new Properties();
@@ -55,7 +55,7 @@ public class CucumberRunner extends AbstractTestNGCucumberTests {
 		config.load(ip);
 	}
 
-	public void configureDriverPath() throws IOException {
+	public void configureDriverPath() {
 		WebDriverManager.chromedriver().setup();
 		ChromeOptions options = new ChromeOptions();
 		//options.addArguments("--headless");
@@ -64,11 +64,11 @@ public class CucumberRunner extends AbstractTestNGCucumberTests {
 		options.addArguments("--disable-dev-shm-usage");
 
 
-		Map<String, Object> deviceMetrics = new HashMap<String, Object>();
+		Map<String, Object> deviceMetrics = new HashMap<>();
 		deviceMetrics.put("width", 375);
 		deviceMetrics.put("height", 812);
 		deviceMetrics.put("pixelRatio", 3.0);
-		Map<String, Object> mobileEmulation = new HashMap<String, Object>();
+		Map<String, Object> mobileEmulation = new HashMap<>();
 		mobileEmulation.put("deviceMetrics", deviceMetrics);
 		mobileEmulation.put("userAgent", "Mozilla/5.0 (Linux; Android 8.0.0;" +
 						"iPhone X Build/OPD1.170816.004) AppleWebKit/537.36 (KHTML, like Gecko) " +
@@ -76,7 +76,8 @@ public class CucumberRunner extends AbstractTestNGCucumberTests {
 		options.setExperimentalOption("mobileEmulation", mobileEmulation);
 
 
-		driver = new ChromeDriver(options);
+		//driver = new ChromeDriver(options);
+		driver.set(new ChromeDriver(options));
 	}
 
 	public void openBrowser() throws Exception {
@@ -87,30 +88,30 @@ public class CucumberRunner extends AbstractTestNGCucumberTests {
 	}
 
 	public void maximizeWindow() {
-		driver.manage().window().maximize();
+		driver.get().manage().window().maximize();
 	}
 
 	public void implicitWait(int time) {
-		driver.manage().timeouts().implicitlyWait(time, TimeUnit.SECONDS);
+		driver.get().manage().timeouts().implicitlyWait(time, TimeUnit.SECONDS);
 	}
 
 	public void explicitWait(WebElement element) {
-		WebDriverWait wait = new WebDriverWait(driver, 3000);
+		WebDriverWait wait = new WebDriverWait(driver.get(), 3000);
 		wait.until(ExpectedConditions.visibilityOf(element));
 	}
 
 	public void pageLoad(int time) {
-		driver.manage().timeouts().pageLoadTimeout(time, TimeUnit.SECONDS);
+		driver.get().manage().timeouts().pageLoadTimeout(time, TimeUnit.SECONDS);
 	}
 
 	public void deleteAllCookies() {
-		driver.manage().deleteAllCookies();
+		driver.get().manage().deleteAllCookies();
 	}
 
 	public void setEnv() throws Exception {
 		LoadConfigProperty();
 		String baseUrl = config.getProperty("siteUrl");
-		driver.get(baseUrl);
+		driver.get().get(baseUrl);
 	}
 
 	public static String currentDateTime() {
@@ -148,7 +149,7 @@ public class CucumberRunner extends AbstractTestNGCucumberTests {
 			failureImageFile.createNewFile();
 			Files.copy(imageFile, failureImageFile);
 		}
-		driver.quit();
+		driver.get().quit();
 	}
 
 

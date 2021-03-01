@@ -11,7 +11,7 @@ public class Search extends CucumberRunner {
 	@Given("^I am on \"(.*?)\" search page$")
 	public void verifyPageTitle(String text) throws Throwable {
 
-		String title = driver.getTitle();
+		String title = driver.get().getTitle();
 			if(text.equals("google")) {
 				Assert.assertEquals(title, "Google");
 			} else if(text.equals("cucumber")) {

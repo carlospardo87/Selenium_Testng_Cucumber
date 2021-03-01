@@ -11,3 +11,6 @@ Feature: To search cucumber in google
       |cucumber|
       |Selenium|
       |TestNg|
+      |Java8|
+      |Protractor|
+      |Maven|

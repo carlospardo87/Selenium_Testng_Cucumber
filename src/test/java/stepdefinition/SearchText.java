@@ -11,6 +11,7 @@ public class SearchText extends CucumberRunner {
 
 	@Given("^I type \"(.*?)\"$")
 	public void searchText(String text) throws Throwable {
+		System.out.println("Title printed by Thread " + Thread.currentThread().getId());
 		explicitWait(page.searchBox);
 		page.searchBox.sendKeys(text);
 
