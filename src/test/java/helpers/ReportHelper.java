@@ -45,7 +45,7 @@ public class ReportHelper {
 
 
         ReportBuilder reportBuilder = new ReportBuilder(jsonFiles, configuration);
-        //reportBuilder.generateReports();
+        reportBuilder.generateReports();
         Reportable result = reportBuilder.generateReports();
     }
 

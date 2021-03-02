@@ -1,19 +1,10 @@
 package main;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-
-import com.google.common.io.Files;
-
-import io.cucumber.java.BeforeStep;
-import io.cucumber.java.Scenario;
+import helpers.ReportHelper;
+import io.cucumber.testng.AbstractTestNGCucumberTests;
+import io.cucumber.testng.CucumberOptions;
 import io.github.bonigarcia.wdm.WebDriverManager;
-
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -23,19 +14,27 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
-
-import io.cucumber.testng.CucumberOptions;
-import io.cucumber.testng.AbstractTestNGCucumberTests;
-import helpers.ReportHelper;
 
 @CucumberOptions(
 		monochrome = true,
 		features = "src/test/resources/features",
 		glue = "stepdefinition",
-		plugin = {"pretty","json:target/cucumber.json", "timeline:target/timeline/" , "html:target/cucumber-pretty"}
+		//plugin = {"pretty","json:target/cucumber.json", "timeline:target/timeline/" , "html:target/cucumber-pretty"}
+		plugin = {"pretty","com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"},
+		tags = "@Regression"
 		)
 		//tags = { "@Regression,@JunitScenario,@TestngScenario" })
 
@@ -152,8 +151,7 @@ public class CucumberRunner extends AbstractTestNGCucumberTests {
 			String failureImageFileName = result.getMethod().getMethodName()
 					+ new SimpleDateFormat("MM-dd-yyyy_HH-ss").format(new GregorianCalendar().getTime()) + ".png";
 			File failureImageFile = new File(System.getProperty("user.dir") + "//screenshots//" + failureImageFileName);
-			Files.copy(imageFile, failureImageFile);
-
+			FileUtils.copyFile(imageFile, failureImageFile);
 			driver().close();
 		} else {
 			driver().quit();
@@ -162,10 +160,10 @@ public class CucumberRunner extends AbstractTestNGCucumberTests {
 	}
 
 
-	@AfterSuite(alwaysRun=true)
-	public void generateHTMLReports() {
-		ReportHelper.generateCucumberReport();
 
+	@AfterSuite(alwaysRun=true)
+	public void generateHTMLReports() throws IOException {
+		ReportHelper.generateCucumberReport();
 	}
 
 
@@ -179,14 +177,5 @@ public class CucumberRunner extends AbstractTestNGCucumberTests {
             scenario.attach(screenshot, "image/png", "name");
         }
     }
-
-	@AfterClass(alwaysRun = true)
-	public void takeScreenshot() throws IOException {
-		File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-		File trgtFile = new File(System.getProperty("user.dir") + "//screenshots/screenshot.png");
-		trgtFile.getParentFile().mkdir();
-		trgtFile.createNewFile();
-		Files.copy(scrFile, trgtFile);
-
 	}*/
 
