@@ -148,9 +148,10 @@ public class CucumberRunner extends AbstractTestNGCucumberTests {
 	public void tearDown(ITestResult result) throws IOException {
 		if (!result.isSuccess()) {
 			File imageFile = ((TakesScreenshot) driver()).getScreenshotAs(OutputType.FILE);
-			String failureImageFileName = result.getMethod().getMethodName()
-					+ new SimpleDateFormat("MM-dd-yyyy_HH-ss").format(new GregorianCalendar().getTime()) + ".png";
-			File failureImageFile = new File(System.getProperty("user.dir") + "//screenshots//" + failureImageFileName);
+			/*String failureImageFileName = result.getMethod().getMethodName()
+					+ new SimpleDateFormat("MM-dd-yyyy_HH-ss").format(new GregorianCalendar().getTime()) + ".png";*/
+			String failureImageFileName = "image.png";
+			File failureImageFile = new File(System.getProperty("user.dir") + "//report-output//Spark//" + failureImageFileName);
 			FileUtils.copyFile(imageFile, failureImageFile);
 			driver().close();
 		} else {
@@ -162,7 +163,7 @@ public class CucumberRunner extends AbstractTestNGCucumberTests {
 
 
 	@AfterSuite(alwaysRun=true)
-	public void generateHTMLReports() throws IOException {
+	public void generateHTMLReports() {
 		ReportHelper.generateCucumberReport();
 	}
 
