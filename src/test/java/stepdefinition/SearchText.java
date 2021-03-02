@@ -1,8 +1,12 @@
 package stepdefinition;
 
 
+import io.cucumber.java.After;
+import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
 import main.CucumberRunner;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import pages.SearchPage;
 
 public class SearchText extends CucumberRunner {
@@ -15,6 +19,16 @@ public class SearchText extends CucumberRunner {
 		explicitWait(page.searchBox);
 		page.searchBox.sendKeys(text);
 
+	}
+
+	@After
+	public void afterScenario(Scenario scenario) {
+		if (scenario.isFailed()) {
+			TakesScreenshot ts = (TakesScreenshot) driver();
+			byte[] screenshot = ts.getScreenshotAs(OutputType.BYTES);
+			//scenario.log(scenario.getName() +"   "+ scenario.getLine());
+			scenario.attach(screenshot, "image/png", "Screen error!!! ");
+		}
 	}
 
 }
