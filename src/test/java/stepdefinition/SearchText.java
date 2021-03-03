@@ -9,6 +9,9 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import pages.SearchPage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SearchText extends CucumberRunner {
 
 	SearchPage page = new SearchPage();
@@ -26,7 +29,7 @@ public class SearchText extends CucumberRunner {
 		if (scenario.isFailed()) {
 			TakesScreenshot ts = (TakesScreenshot) driver();
 			byte[] screenshot = ts.getScreenshotAs(OutputType.BYTES);
-			//scenario.log(scenario.getName() +"   "+ scenario.getLine());
+			storeId.add(scenario.getId());
 			scenario.attach(screenshot, "image/png", "Screen error!!! ");
 		}
 	}
