@@ -1,0 +1,61 @@
+passColor: 19DA68
+failColor: DA193E
+skipColor: E5DF0D
+displayFeature: true
+displayScenario: true
+displayDetailed: true
+
+summaryConfig:
+  title: Cucumber-Parallel PDF Report
+  dataBackgroundColor: 404040
+  titleColor: FF0000
+  dateColor: 969696
+  startTimeColor: 000000
+  endTimeColor: 000000
+  durationColor: 000000
+  dial:
+    featureRanges: 60 95
+    scenarioRanges: 70 90
+    stepRanges: 75 85
+    badColor: DA193E
+    averageColor: E5890D
+    goodColor: 19DA68
+
+featureConfig:
+  itemcount: 10
+  totalColor: FF0000
+  durationColor: FF0000
+
+scenarioConfig:
+  itemcount: 12
+  totalColor: FF0000
+  durationColor: FF0000
+
+detailedFeatureConfig:
+  featureNameColor: FF0000
+  startEndTimeColor: 000000
+  tagColor: 404040
+  dataHeaderColor: FFFFFF
+  dataBackgroundColor: 404040
+  totalColor: 538FDB
+  durationColor: FFFFFF
+  durationBackgroundColor: 404040
+
+detailedScenarioConfig:
+  featureNameColor: C0C0C0
+  scenarioNameColor: FF0000
+  startEndTimeColor: 000000
+  tagColor: 404040
+  dataHeaderColor: FFFFFF
+  dataBackgroundColor: 404040
+  totalColor: 538FDB
+  durationColor: FFFFFF
+  durationBackgroundColor: 404040
+  stepChartBarColor: 7f32a8
+
+detailedStepHookConfig:
+  stepTextColor: 0000FF
+  hookTextColor: 00FF00
+  durationColor: FF0000
+  errorMsgColor: DA193E
+  logMsgColor: 4E5052
