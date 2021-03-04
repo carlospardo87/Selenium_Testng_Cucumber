@@ -1,12 +1,12 @@
 package helpers;
 
+import net.masterthought.cucumber.Configuration;
+import net.masterthought.cucumber.ReportBuilder;
+import net.masterthought.cucumber.Reportable;
+
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
-import net.masterthought.cucumber.*;
-import net.masterthought.cucumber.sorting.SortingMethod;
 
 
 public class ReportHelper {

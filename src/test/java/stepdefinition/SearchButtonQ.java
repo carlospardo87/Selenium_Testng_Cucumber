@@ -1,18 +1,18 @@
 package stepdefinition;
 
+
 import io.cucumber.java.en.Then;
-import main.CucumberRunner;
+import org.openqa.selenium.By;
 import org.testng.Assert;
-import pages.SearchPage;
+import pages.BaseStepDef;
 
-public class Clear extends CucumberRunner {
+public class SearchButtonQ extends BaseStepDef {
 
-	SearchPage page = new SearchPage();
 
 	@Then("^I clear search textbox$")
 	public void clearSearchBox() {
-		explicitWait(page.searchBox);
-		page.searchBox.clear();
+		explicitWait(driver().findElement(By.cssSelector("input[name='q']")));
+		driver().findElement(By.cssSelector("input[name='q']")).clear();
 	}
 
 

@@ -1,48 +1,39 @@
 package main;
 
-import helpers.ReportHelper;
+
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.ITestResult;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.DataProvider;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.util.List;
+
+import static helpers.ReportHelper.generateCucumberReport;
+import static pages.BaseStepDef.storeId;
 
 
 @CucumberOptions(
 		monochrome = true,
 		features = "src/test/resources/features",
 		glue = "stepdefinition",
-		plugin = {"pretty","json:target/cucumber.json", "timeline:target/timeline/" , "html:target/cucumber-pretty","com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"}
-		//plugin = {"pretty","com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"},
+		plugin = {"pretty","json:target/cucumber.json",
+				"timeline:target/timeline/",
+				"html:target/cucumber-pretty",
+				"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
+				"rerun:target/failedrerun.txt"
+		}
 		)
 		//tags = { "@Regression,@JunitScenario,@TestngScenario" })
 
 public class CucumberRunner extends AbstractTestNGCucumberTests {
 
-	public static Properties config = null;
-	public static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
-
-	String screenShotDir = System.getProperty("user.dir") + "//screenshot//";
-	String screenReportDir = System.getProperty("user.dir") + "//report-output//";
-
 	long timeStart, timeEnd, time;
+	String screenReportDir = System.getProperty("user.dir") + "//report-output//";
+	String rerunFilePath = System.getProperty("user.dir") + "//target//failedrerun.txt";
 
 
 	@Override
@@ -51,123 +42,56 @@ public class CucumberRunner extends AbstractTestNGCucumberTests {
 		return super.scenarios();
 	}
 
-	public void LoadConfigProperty() throws IOException {
-		config = new Properties();
-		FileInputStream ip = new FileInputStream(
-				System.getProperty("user.dir") + "//src//test//resources//config//config.properties");
-		config.load(ip);
-	}
-
-	public void configureDriverPath() {
-		WebDriverManager.chromedriver().setup();
-		ChromeOptions options = new ChromeOptions();
-		options.addArguments("--headless");
-		options.addArguments("--disable-gpu");
-		options.addArguments("--no-sandbox");
-		options.addArguments("--disable-dev-shm-usage");
-
-
-		Map<String, Object> deviceMetrics = new HashMap<>();
-		deviceMetrics.put("width", 375);
-		deviceMetrics.put("height", 812);
-		deviceMetrics.put("pixelRatio", 3.0);
-		Map<String, Object> mobileEmulation = new HashMap<>();
-		mobileEmulation.put("deviceMetrics", deviceMetrics);
-		mobileEmulation.put("userAgent", "Mozilla/5.0 (Linux; Android 8.0.0;" +
-						"iPhone X Build/OPD1.170816.004) AppleWebKit/537.36 (KHTML, like Gecko) " +
-		"Chrome/67.0.3396.99 Mobile Safari/537.36");
-		options.setExperimentalOption("mobileEmulation", mobileEmulation);
-
-		driver.set(new ChromeDriver(options));
-	}
-
-	public static WebDriver driver()
-	{
-		return driver.get();
-	}
-
-	public void openBrowser() throws Exception {
-		// loads the config options
-		LoadConfigProperty();
-		// configures the driver path
-		configureDriverPath();
-	}
-
-	public void maximizeWindow() {
-		driver().manage().window().maximize();
-	}
-
-	public void implicitWait(int time) {
-		driver().manage().timeouts().implicitlyWait(time, TimeUnit.SECONDS);
-	}
-
-	public void explicitWait(WebElement element) {
-		WebDriverWait wait = new WebDriverWait(driver(), 3000);
-		wait.until(ExpectedConditions.visibilityOf(element));
-	}
-
-	public void pageLoad(int time) {
-		driver().manage().timeouts().pageLoadTimeout(time, TimeUnit.SECONDS);
-	}
-
-	public void deleteAllCookies() {
-		driver().manage().deleteAllCookies();
-	}
-
-	public void setEnv() throws Exception {
-		LoadConfigProperty();
-		String baseUrl = config.getProperty("siteUrl");
-		driver().get(baseUrl);
-	}
-
-	public static String currentDateTime() {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		Calendar cal = Calendar.getInstance();
-		String cal1;
-		cal1 = dateFormat.format(cal.getTime());
-		return cal1;
-	}
-
-
-	/**
-	 * Setting up Hooks
-	 *
-	 */
-
-	@BeforeSuite(alwaysRun = true)
+	@BeforeSuite
 	public void initEnv() {
 		timeStart = System.currentTimeMillis();
-		deleteScreenshots(screenShotDir,"png");
 		deleteScreenshots(screenReportDir, "png");
 	}
 
-	@BeforeMethod(alwaysRun = true)           // Should be Before feature
-	public void setUp() throws Exception {
-		openBrowser();
-		maximizeWindow();
-		implicitWait(30);
-		deleteAllCookies();
-		setEnv();
-		pageLoad(30);
+	@AfterSuite(alwaysRun = true)
+	public void generateReportHtml(){
+		generateHTMLReports();
+		getRegressionTime();
+		writeFiledScenarios(storeId);
 	}
 
+	public void generateHTMLReports() {
+		generateCucumberReport();
+	}
 
-	@AfterMethod(alwaysRun = true)     // Should be After feature
-	public void tearDown(ITestResult result) throws IOException {
-		if (!result.isSuccess()) {
-			File imageFile = ((TakesScreenshot) driver()).getScreenshotAs(OutputType.FILE);
-			String failureImageFileName = result.getMethod().getMethodName()
-					+ new SimpleDateFormat(String.valueOf(System.currentTimeMillis())).format(new GregorianCalendar().getTime()) + ".png";
-			File failureImageFile = new File(screenShotDir + failureImageFileName);
-			FileUtils.copyFile(imageFile, failureImageFile);
-			driver().close();
-		} else {
-			driver().quit();
+	public void writeFiledScenarios(List <String> list) {
+		FileWriter fichero = null;
+		PrintWriter pw;
+		try
+		{
+			fichero = new FileWriter(rerunFilePath);
+			pw = new PrintWriter(fichero);
+
+			for (int i = 0; i <= list.size()-1; i++)
+				pw.println(list.get(i));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (null != fichero)
+					fichero.close();
+				System.out.println("\n-----------  RETRY FILE STATUS ----------------------------------");
+				System.out.println("File is written successfully");
+				System.out.println("-----------------------------------------------------------------");
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
 		}
 
+		System.out.println("\n-----------  SCENARIOS FAILED -----------------------------------");
+		if (storeId.isEmpty())
+			System.out.println("There are not failed scenarios");
+		else System.out.println(" "+ storeId +" ");
+		System.out.println("-----------------------------------------------------------------");
 	}
 
-	public void deleteScreenshots(String path, String extension){
+	public void deleteScreenshots(String path, String extension) {
 		File directory = new File(path);
 		if (!directory.exists()) {
 			System.out.println("Screenshots file has not been created");
@@ -176,7 +100,7 @@ public class CucumberRunner extends AbstractTestNGCucumberTests {
 
 		File[] screenFile = new File(path).listFiles(screens -> {
 			if (screens.isFile())
-			return screens.getName().endsWith('.' + extension);
+				return screens.getName().endsWith('.' + extension);
 			return false;
 		});
 
@@ -188,14 +112,18 @@ public class CucumberRunner extends AbstractTestNGCucumberTests {
 
 	}
 
-
-	@AfterSuite(alwaysRun=true)
-	public void generateHTMLReports() {
-		ReportHelper.generateCucumberReport();
+	public void getRegressionTime() {
 		timeEnd = System.currentTimeMillis();
-		time = (timeEnd - timeStart)/1000;
-		System.out.println("--- Regression execution time: " + time+ " seconds ---");
+		time = (timeEnd - timeStart) / 1000;
 
+		System.out.println("\n-----------  REGRESSION TIME ------------------------------------");
+		System.out.println(time + " seconds");
+		System.out.println("-----------------------------------------------------------------");
 	}
-	}
+}
+
+
+
+
+
 

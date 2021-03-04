@@ -1,20 +1,28 @@
 package stepdefinition;
 
 
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import pages.BaseStepDef;
 
-import main.CucumberRunner;
-import pages.SearchPage;
+public class SearchButton extends BaseStepDef {
 
-public class SearchButton extends CucumberRunner {
 
-	SearchPage page = new SearchPage();
+
+	@Given("^I type \"(.*?)\"$")
+	public void searchText(String text)  {
+		explicitWait(driver().findElement(By.cssSelector("input[name='q']")));
+		driver().findElement(By.cssSelector("input[name='q']")).sendKeys(text);
+
+	}
+
 
 	@When("^I click search button$")
-	public void clickSearchButton() throws Throwable {
-		explicitWait(page.searchBox);
-		page.searchBox.sendKeys(Keys.ENTER);
+	public void clickSearchButton()  {
+		explicitWait(driver().findElement(By.cssSelector("input[name='q']")));
+		driver().findElement(By.cssSelector("input[name='q']")).sendKeys(Keys.ENTER);
 
 	}
 
