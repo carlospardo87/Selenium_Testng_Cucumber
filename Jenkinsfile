@@ -17,7 +17,7 @@ pipeline {
             }
         }
     }
-    p/* ost {
+    /* post {
         always {
             mail to: 'equipo@ricardogeek.com',
             subject: "Se completo el pipeline: ${currentBuild.fullDisplayName}",
