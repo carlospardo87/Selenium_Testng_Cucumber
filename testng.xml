@@ -4,13 +4,13 @@
 
     <test thread-count="4" name="Run All Tests" parallel="methods">
         <classes>
-            <class name="main.CucumberRunner"/>
+            <class name="runners.CucumberRunner"/>
         </classes>
     </test>
 
     <!--<test thread-count="4" name="Rerun Failed Tests" parallel="methods">
         <classes>
-            <class name="main.CucumberRunnerFailed"/>
+            <class name="runners.CucumberRunnerFailed"/>
         </classes>
     </test>-->
 </suite>

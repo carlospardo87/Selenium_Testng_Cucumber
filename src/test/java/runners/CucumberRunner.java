@@ -1,4 +1,5 @@
-package main;
+package runners;
+
 
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
@@ -6,27 +7,32 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.List;
 
+import static helpers.EmailHelper.sendEmailReport;
 import static helpers.ReportHelper.generateCucumberReport;
-import static pages.BaseStepDef.storeId;
+import static stepdefinition.BaseStepDef.storeId;
 
 
 @CucumberOptions(
 		monochrome = true,
-		features = "@target/failedrerun.txt",
+		features = "src/test/resources/features",
 		glue = "stepdefinition",
 		plugin = {"pretty","json:target/cucumber.json",
 				"timeline:target/timeline/",
 				"html:target/cucumber-pretty",
 				"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
-				"rerun:target/failedrerun.txt"
-		}
+				"rerun:target/failedrerun.txt"},
+				tags = "@Regression"
 		)
-		//tags = { "@Regression,@JunitScenario,@TestngScenario" })
+//tags = "@Regression,@JunitScenario,@TestngScenario,~@SoapUI"
+//  Para Ignore Scenarios add ~ at the beginning of the tag
 
-public class CucumberRunnerFailed extends AbstractTestNGCucumberTests {
+
+public class CucumberRunner extends AbstractTestNGCucumberTests {
 
 	long timeStart, timeEnd, time;
 	String screenReportDir = System.getProperty("user.dir") + "//report-output//";
@@ -41,7 +47,6 @@ public class CucumberRunnerFailed extends AbstractTestNGCucumberTests {
 
 	@BeforeSuite
 	public void initEnv() {
-		checkRerunFileExist(rerunFilePath);
 		timeStart = System.currentTimeMillis();
 		deleteScreenshots(screenReportDir, "png");
 	}
@@ -51,11 +56,11 @@ public class CucumberRunnerFailed extends AbstractTestNGCucumberTests {
 		generateHTMLReports();
 		getRegressionTime();
 		writeFiledScenarios(storeId);
+		//sendEmailReport();
 	}
 
 	public void generateHTMLReports() {
 		generateCucumberReport();
-
 	}
 
 	public void writeFiledScenarios(List <String> list) {
@@ -63,7 +68,7 @@ public class CucumberRunnerFailed extends AbstractTestNGCucumberTests {
 		PrintWriter pw;
 		try
 		{
-			fichero = new FileWriter("target/failedrerun.txt");
+			fichero = new FileWriter(rerunFilePath);
 			pw = new PrintWriter(fichero);
 
 			for (int i = 0; i <= list.size()-1; i++)
@@ -75,7 +80,7 @@ public class CucumberRunnerFailed extends AbstractTestNGCucumberTests {
 			try {
 				if (null != fichero)
 					fichero.close();
-				System.out.println("\n-----------  RETRY FILE STATUS --------------------------------------");
+				System.out.println("\n-----------  RETRY FILE STATUS ----------------------------------");
 				System.out.println("File is written successfully");
 				System.out.println("-----------------------------------------------------------------");
 			} catch (Exception e2) {
@@ -83,14 +88,14 @@ public class CucumberRunnerFailed extends AbstractTestNGCucumberTests {
 			}
 		}
 
-		System.out.println("\n-----------  SCENARIOS FAILED --------------------------------------");
+		System.out.println("\n-----------  SCENARIOS FAILED -----------------------------------");
 		if (storeId.isEmpty())
 			System.out.println("There are not failed scenarios");
 		else System.out.println(" "+ storeId +" ");
 		System.out.println("-----------------------------------------------------------------");
 	}
 
-	public void deleteScreenshots(String path, String extension){
+	public void deleteScreenshots(String path, String extension) {
 		File directory = new File(path);
 		if (!directory.exists()) {
 			System.out.println("Screenshots file has not been created");
@@ -115,24 +120,13 @@ public class CucumberRunnerFailed extends AbstractTestNGCucumberTests {
 		timeEnd = System.currentTimeMillis();
 		time = (timeEnd - timeStart) / 1000;
 
-		System.out.println("\n-------------------REGRESSION TIME-------------- ");
-		System.out.println("                 " + time + " seconds           ");
-		System.out.println("---------------------------------------------");
+		System.out.println("\n-----------  REGRESSION TIME ------------------------------------");
+		System.out.println(time + " seconds");
+		System.out.println("-----------------------------------------------------------------");
 	}
-
-	public void checkRerunFileExist(String rerunFilePath) {
-		BufferedReader br;
-		try {
-			br = new BufferedReader(new FileReader(rerunFilePath));
-			if (br.readLine() == null)
-				throw new Exception("!! failedrerun.txt is empty !! Path: "+rerunFilePath);
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.exit(0);
-		}
-	}
-
 }
+
+
 
 
 

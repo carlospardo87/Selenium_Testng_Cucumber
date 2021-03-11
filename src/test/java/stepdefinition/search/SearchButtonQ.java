@@ -1,10 +1,10 @@
-package stepdefinition;
+package stepdefinition.search;
 
 
 import io.cucumber.java.en.Then;
 import org.openqa.selenium.By;
 import org.testng.Assert;
-import pages.BaseStepDef;
+import stepdefinition.BaseStepDef;
 
 public class SearchButtonQ extends BaseStepDef {
 

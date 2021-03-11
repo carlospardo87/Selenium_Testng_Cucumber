@@ -1,11 +1,11 @@
-package stepdefinition;
+package stepdefinition.search;
 
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import pages.BaseStepDef;
+import stepdefinition.BaseStepDef;
 
 public class SearchButton extends BaseStepDef {
 

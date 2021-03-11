@@ -4,7 +4,7 @@
 
     <test thread-count="4" name="Rerun Failed Tests" parallel="methods">
         <classes>
-            <class name="main.CucumberRunnerFailed"/>
+            <class name="runners.CucumberRunnerFailed"/>
         </classes>
     </test>
 
