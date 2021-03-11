@@ -17,13 +17,13 @@ pipeline {
             }
         }
     }
-    post {
+    p/* ost {
         always {
             mail to: 'equipo@ricardogeek.com',
             subject: "Se completo el pipeline: ${currentBuild.fullDisplayName}",
             body: "Se ha terminado la compilación, porfavor revisa: ${env.BUILD_URL}"
         }
-    }
+    } */
 
 
 }
