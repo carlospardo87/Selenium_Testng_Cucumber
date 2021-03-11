@@ -15,7 +15,7 @@ pipeline {
         stage('Build') {
             steps {
             echo 'Running test suite'
-               sh 'mvn test -Dsuite=testng'
+               sh 'mvn clean test -Dsuite=testng'
             }
         }
     }
