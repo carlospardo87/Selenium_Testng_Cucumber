@@ -148,6 +148,9 @@
                         <configuration>
                             <projectName>Cucumber-Parallel</projectName>
                             <outputDirectory>${project.build.directory}/Report/cucumber-reports</outputDirectory>
+                            <jsonFiles>
+                                <jsonFile>**/*.json</jsonFile>
+                            </jsonFiles>
                         </configuration>
                     </execution>
                 </executions>
