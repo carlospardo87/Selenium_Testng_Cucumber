@@ -3,13 +3,6 @@ pipeline {
         options { timeout(time: 5) } // Stop execution if spend more than 5 min
 
      stages {
-               /*  stage("Clean") {
-                    steps {
-                        //git url: 'https://github.com/carlospardo87/TestngCucumberBoilerPlate.git'
-                        // Run Maven on a Unix agent.
-                     sh "mvn -Dmaven.test.failure.ignore=true clean package"
-                    }
-                } */
      stage ('Initialize') {
                 steps {
                   echo 'Getting PATH'
