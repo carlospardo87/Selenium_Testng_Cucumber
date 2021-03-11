@@ -19,6 +19,12 @@ pipeline {
             }
         }
     }
+
+    post {
+            always {
+                cucumber '**/cucumber.json'
+            }
+        }
     /* post {
         always {
             mail to: 'equipo@ricardogeek.com',
