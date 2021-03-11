@@ -1,16 +1,6 @@
 pipeline {
     agent any
-    triggers {
-            pollSCM('* * * * *')  //  Run pipeline per each repository change
-        }
-     stages {
-                stage("Clean") {
-                    steps {
-                        //git url: 'https://github.com/carlospardo87/TestngCucumberBoilerPlate.git'
-                        // Run Maven on a Unix agent.
-                     sh "mvn -Dmaven.test.failure.ignore=true clean package"
-                    }
-                }
+        options { timeout(time: 5) } // Stop execution if spend more than 5 min
      stage ('Initialize') {
                 steps {
                   echo 'Getting PATH'
@@ -23,7 +13,7 @@ pipeline {
         stage('Build') {
             steps {
             echo 'Running test suite'
-               sh 'mvn test -Dsuite=testng'
+               sh 'mvn clean test -Dsuite=testng'
             }
         }
     }
