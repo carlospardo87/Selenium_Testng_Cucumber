@@ -1,5 +1,6 @@
 Feature: create scenarios outline
 
+  @Regression
   Scenario Outline: Looking for some word
       Given I type "<type>"
       When I click search button
