@@ -3,15 +3,6 @@ pipeline {
     triggers {
             pollSCM('* * * * *')  //  Run pipeline per each repository change
         }
-        options { timeout(time: 5) } // Stop execution if spend more than 5 min
-    stages {
-
-    // tools - will be installed automatically on thw env where Jenkins run
-    // These tools need to be configured in Manage Jenkins -> Global Tool Configuration
-    /* tools {
-            maven 'Maven 3.3.9'
-            jdk 'jdk8'
-        } */
      stages {
                 stage("Clean") {
                     steps {
