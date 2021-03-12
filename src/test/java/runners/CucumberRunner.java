@@ -56,7 +56,7 @@ public class CucumberRunner extends AbstractTestNGCucumberTests {
 		generateHTMLReports();
 		getRegressionTime();
 		writeFiledScenarios(storeId);
-		//sendEmailReport();
+		sendEmailReport();
 	}
 
 	public void generateHTMLReports() {

@@ -23,15 +23,10 @@ pipeline {
     post {
             always {
                 cucumber '**/cucumber.json'
+
+                mail to: 'bmaggioi_l667d@fuluj.com',
+                          subject: "Status of pipeline: ${currentBuild.fullDisplayName}",
+                          body: "${env.BUILD_URL} has result ${currentBuild.result}"
             }
         }
-    /* post {
-        always {
-            mail to: 'equipo@ricardogeek.com',
-            subject: "Se completo el pipeline: ${currentBuild.fullDisplayName}",
-            body: "Se ha terminado la compilación, porfavor revisa: ${env.BUILD_URL}"
-        }
-    } */
-
-
 }
