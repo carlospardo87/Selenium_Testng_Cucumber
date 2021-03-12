@@ -59,7 +59,8 @@ pipeline {
                            body: """
                            <html>
                            <body>
-                           <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.redeszone.net%2F2018%2F02%2F19%2Finfectan-los-servidores-jenkins-malware-mina-monero%2F&psig=AOvVaw22hQsivEMBGVxv6vjs31z0&ust=1615665421282000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCMC8hO7Eq-8CFQAAAAAdAAAAABAM">
+                           <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fricardogeek.com%2Fcrea-tu-propia-imagen-docker-de-jenkins%2F&psig=AOvVaw22hQsivEMBGVxv6vjs31z0&ust=1615665421282000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCMC8hO7Eq-8CFQAAAAAdAAAAABAQ" alt="" width="512"  height="512" />
+
                            <h1>Pipeline: ${currentBuild.fullDisplayName}</h1>
                            <h2><a href="${env.BUILD_URL}cucumber-html-reports/overview-features.html">Build ${currentBuild.id} - Results Link </a></h2>
                            <h2><a href="${env.BUILD_URL}">Build ${currentBuild.id} Results </a></h2>
