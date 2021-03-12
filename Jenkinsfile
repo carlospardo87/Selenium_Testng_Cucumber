@@ -64,7 +64,7 @@ pipeline {
                            <h2><a href="${env.JOB_DISPLAY_URL}">${currentBuild.projectName}</a></h2>
                            </body>
                            </html>
-                           """
+                           """,
                            to: 'bmaggioi_l667d@fuluj.com'
                           )
                      }
