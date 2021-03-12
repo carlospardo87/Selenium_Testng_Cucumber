@@ -54,13 +54,13 @@ pipeline {
                           emailext(
 
                            attachmentsPattern: "report-output/WebReport/ExtentWeb.html",
-                           subject: "Status of pipeline: ${currentBuild.result} - Project name -> ${env.JOB_NAME}",
+                           subject: "STATUS OF PIPELINE: ${currentBuild.result}",
                            mimeType: 'text/html',
                            body: """
                            <html>
                            <body>
                            <h1>Pipeline: ${currentBuild.fullDisplayName}</h1>
-                           <h2><a href="${env.BUILD_URL}cucumber-html-reports/overview-features.html}">Build ${currentBuild.id} Results</a></h2>
+                           <h2><a href="${env.BUILD_URL}cucumber-html-reports/overview-features.html">Build ${currentBuild.id} Results</a></h2>
                            <h2><a href="${env.JOB_DISPLAY_URL}">${currentBuild.projectName}</a></h2>
                            </body>
                            </html>
