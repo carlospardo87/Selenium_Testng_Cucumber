@@ -59,7 +59,7 @@ pipeline {
                            body: """
                            <html>
                            <body>
-                           <img src="data:src/test/resources/jenkins.png;base64,iVBORw0K...shortened...rkJggg==">
+                           <img src="https://i.dlpng.com/static/png/6324933_preview.png">
 
 
                            <h1>Pipeline: ${currentBuild.fullDisplayName}</h1>
