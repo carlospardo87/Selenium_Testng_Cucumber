@@ -58,11 +58,8 @@ pipeline {
                           mimeType: 'text/html',
                           replyTo: '',
                           subject: "Status of pipeline: ${currentBuild.result} - Project name -> ${env.JOB_NAME}",
-                          body: "<b>Example</b>
-                          <br>Project: ${env.JOB_NAME}
-                          <br>Build Number: ${env.BUILD_NUMBER}
-                          <br> Report Link:
-                          <a href=${env.BUILD_URL}cucumber-html-reports/overview-features.html</a>"
+                          body: "<b>Example</b> <br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: <a href>${env.BUILD_URL}cucumber-html-reports/overview-features.html</a>",
+                          //body: "<b>Example</b> <br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> Report Link: <a href=${env.BUILD_URL}cucumber-html-reports/overview-features.html</a>"
                           )
                      }
 
