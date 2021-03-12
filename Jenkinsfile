@@ -60,8 +60,8 @@ pipeline {
                            <html>
                            <body>
                            //<img src="https://i.dlpng.com/static/png/6324933_preview.png">
-                           <img src="jenkins.png" width="100" height="100"/>
-                           <img src="https://www.redeszone.net/app/uploads-redeszone.net/2018/02/servidores-de-jenkins-infectados-con-malware-que-mina-monero-930x452.png" width="100" height="100" />
+                           <img src="src/test/resources/jenkins.png" width="100" height="100"/>
+                           <img src="https://www.redeszone.net/app/uploads-redeszone.net/2018/02/servidores-de-jenkins-infectados-con-malware-que-mina-monero-930x452.png" width="300" height="200" />
 
 
 
