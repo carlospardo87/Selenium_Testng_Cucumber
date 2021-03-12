@@ -49,27 +49,75 @@ pipeline {
                      always {
                          echo 'This will always run'
                          cucumber '**/cucumber.json'
-
-                         emailext(
-                            attachmentsPattern: "report-output/WebReport/ExtentWeb.html",
-                            subject: "Status of pipeline: ${currentBuild.fullDisplayName}",
-                            body: "${env.BUILD_URL}cucumber-html-reports/overview-features.html has result ${currentBuild.result}",
-                            to: 'bmaggioi_l667d@fuluj.com'
-                         )
                      }
                      success {
                          echo 'This will run only if successful'
+                         emailext(
+                             attachmentsPattern: "report-output/WebReport/ExtentWeb.html",
+                             bcc: '',
+                             cc: '',
+                             charset: 'UTF-8',
+                             from: '',
+                             mimeType: 'text/html',
+                             replyTo: '',
+                             subject: "Status of pipeline: ${currentBuild.fullDisplayName} ERROR CI: Project name -> ${env.JOB_NAME}",
+                             //body: "${env.BUILD_URL}cucumber-html-reports/overview-features.html has result ${currentBuild.result}",
+                             body: "<b>Example</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}cucumber-html-reports/overview-features.html",
+                             to: 'bmaggioi_l667d@fuluj.com'
+                             )
                      }
                      failure {
                      echo 'This was a failure'
-                        // mail bcc: '', body: "<b>Example</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html', replyTo: '', subject: "ERROR CI: Project name -> ${env.JOB_NAME}", to: "foo@foomail.com";
+                     emailext(
+                            attachmentsPattern: "report-output/WebReport/ExtentWeb.html",
+                            bcc: '',
+                            cc: '',
+                            charset: 'UTF-8',
+                            from: '',
+                            mimeType: 'text/html',
+                            replyTo: '',
+                            subject: "Status of pipeline: ${currentBuild.fullDisplayName} ERROR CI: Project name -> ${env.JOB_NAME}",
+                            //body: "${env.BUILD_URL}cucumber-html-reports/overview-features.html has result ${currentBuild.result}",
+                            body: "<b>Example</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}cucumber-html-reports/overview-features.html",
+                            to: 'bmaggioi_l667d@fuluj.com'
+                            )
+                        //
+
                      }
                      unstable {
                          echo 'This will run only if the run was marked as unstable'
+                         emailext(
+                          attachmentsPattern: "report-output/WebReport/ExtentWeb.html",
+                          bcc: '',
+                          cc: '',
+                          charset: 'UTF-8',
+                          from: '',
+                          mimeType: 'text/html',
+                          replyTo: '',
+                          subject: "Status of pipeline: ${currentBuild.fullDisplayName} Unstable : Project name -> ${env.JOB_NAME}",
+                                                      //body: "${env.BUILD_URL}cucumber-html-reports/overview-features.html has result ${currentBuild.result}",
+                          body: "<b>Example</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}cucumber-html-reports/overview-features.html",
+                          to: 'bmaggioi_l667d@fuluj.com'
+                           //sortingMethod: 'ALPHABETICAL'
+                          )
+
                      }
                      changed {
-                         echo 'This will run only if the state of the Pipeline has changed'
-                         echo 'For example, if the Pipeline was previously failing but is now successful'
+                     echo 'This will run only if the state of the Pipeline has changed'
+                     echo 'For example, if the Pipeline was previously failing but is now successful'
+                     emailext(
+                         attachmentsPattern: "report-output/WebReport/ExtentWeb.html",
+                         bcc: '',
+                         cc: '',
+                         charset: 'UTF-8',
+                         from: '',
+                         mimeType: 'text/html',
+                         replyTo: '',
+                         subject: "Status of pipeline: ${currentBuild.fullDisplayName} Change Status: Project name -> ${env.JOB_NAME}",
+                                                     //body: "${env.BUILD_URL}cucumber-html-reports/overview-features.html has result ${currentBuild.result}",
+                         body: "<b>Example</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}cucumber-html-reports/overview-features.html",
+                         to: 'bmaggioi_l667d@fuluj.com'
+                         )
                      }
                  }
 
