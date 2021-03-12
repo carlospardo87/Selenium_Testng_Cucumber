@@ -54,9 +54,6 @@ pipeline {
                          echo 'This will run only if successful'
                          emailext(
                              attachmentsPattern: "report-output/WebReport/ExtentWeb.html",
-                             bcc: '',
-                             cc: '',
-                             charset: 'UTF-8',
                              from: '',
                              mimeType: 'text/html',
                              replyTo: '',
@@ -70,9 +67,6 @@ pipeline {
                      echo 'This was a failure'
                      emailext(
                             attachmentsPattern: "report-output/WebReport/ExtentWeb.html",
-                            bcc: '',
-                            cc: '',
-                            charset: 'UTF-8',
                             from: '',
                             mimeType: 'text/html',
                             replyTo: '',
@@ -88,9 +82,6 @@ pipeline {
                          echo 'This will run only if the run was marked as unstable'
                          emailext(
                           attachmentsPattern: "report-output/WebReport/ExtentWeb.html",
-                          bcc: '',
-                          cc: '',
-                          charset: 'UTF-8',
                           from: '',
                           mimeType: 'text/html',
                           replyTo: '',
@@ -107,9 +98,6 @@ pipeline {
                      echo 'For example, if the Pipeline was previously failing but is now successful'
                      emailext(
                          attachmentsPattern: "report-output/WebReport/ExtentWeb.html",
-                         bcc: '',
-                         cc: '',
-                         charset: 'UTF-8',
                          from: '',
                          mimeType: 'text/html',
                          replyTo: '',
@@ -119,8 +107,6 @@ pipeline {
                          to: 'bmaggioi_l667d@fuluj.com'
                          )
                      }
-                 }
-
-
+        }
 
 }
