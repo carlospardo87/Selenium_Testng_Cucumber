@@ -4,9 +4,9 @@ pipeline {
 
      stages {
      stage ('Initialize') {
-                steps {
-                  echo 'Getting PATH'
-                    sh '''
+            steps {
+            echo 'Getting PATH'
+                sh '''
                         echo "PATH = ${PATH}"
                         echo "M2_HOME = ${M2_HOME}"
                     '''
@@ -14,8 +14,15 @@ pipeline {
             }
         stage('Build') {
             steps {
-            echo 'Running test suite'
-               sh 'mvn clean test -Dsuite=testng'
+            echo 'Clean maven dependencies'
+               sh 'mvn clean -DskipTests'
+            }
+        }
+
+        stage('Test') {
+             steps {
+             echo 'Running test suite'
+                 sh 'mvn test -Dsuite=testng'
             }
         }
     }
@@ -46,7 +53,7 @@ pipeline {
                          emailext(
                             attachmentsPattern: "report-output/WebReport/ExtentWeb.html",
                             subject: "Status of pipeline: ${currentBuild.fullDisplayName}",
-                            body: "${env.BUILD_URL} has result ${currentBuild.result}",
+                            body: "${env.BUILD_URL}cucumber-html-reports/overview-features.html has result ${currentBuild.result}",
                             to: 'bmaggioi_l667d@fuluj.com'
                          )
                      }
@@ -54,12 +61,7 @@ pipeline {
                          echo 'This will run only if successful'
                      }
                      failure {
-                         emailext(
-                             attachmentsPattern: "report-output/WebReport/ExtentWeb.html",
-                             subject: "Status of pipeline: ${currentBuild.fullDisplayName}",
-                             body: "${env.BUILD_URL} has result ${currentBuild.result}",
-                             to: 'bmaggioi_l667d@fuluj.com'
-                           )
+                     echo 'This was a failure'
                         // mail bcc: '', body: "<b>Example</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html', replyTo: '', subject: "ERROR CI: Project name -> ${env.JOB_NAME}", to: "foo@foomail.com";
                      }
                      unstable {
