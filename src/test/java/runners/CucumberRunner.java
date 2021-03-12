@@ -14,6 +14,7 @@ import java.util.List;
 
 import static helpers.EmailHelper.sendEmailReport;
 import static helpers.ReportHelper.generateCucumberReport;
+import static stepdefinition.BaseStepDef.*;
 import static stepdefinition.BaseStepDef.storeId;
 
 
@@ -56,6 +57,8 @@ public class CucumberRunner extends AbstractTestNGCucumberTests {
 		generateHTMLReports();
 		getRegressionTime();
 		writeFiledScenarios(storeId);
+
+		if (config.getProperty("localEmail").equals("true"))
 		sendEmailReport();
 	}
 
