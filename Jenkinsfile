@@ -59,7 +59,8 @@ pipeline {
                            body: """
                            <html>
                            <body>
-                           <img src="src/test/resources/jenkins.png" alt="" width="200"  height="200" />
+                           <img src="data:src/test/resources/jenkins.png;base64,iVBORw0K...shortened...rkJggg==">
+
 
                            <h1>Pipeline: ${currentBuild.fullDisplayName}</h1>
                            <h2><a href="${env.BUILD_URL}cucumber-html-reports/overview-features.html">Build ${currentBuild.id} - Results Link </a></h2>
