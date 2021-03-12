@@ -53,15 +53,19 @@ pipeline {
 
                           emailext(
 
-                          attachmentsPattern: "report-output/WebReport/ExtentWeb.html",
-
-                          subject: "Status of pipeline: ${currentBuild.result} - Project name -> ${env.JOB_NAME}",
-
-
+                           attachmentsPattern: "report-output/WebReport/ExtentWeb.html",
+                           subject: "Status of pipeline: ${currentBuild.result} - Project name -> ${env.JOB_NAME}",
                            mimeType: 'text/html',
-                           body: '${FILE, path=${env.BUILD_URL}cucumber-html-reports/overview-features.html}',
+                           body: """
+                           <html>
+                           <body>
+                           <h1>Pipeline: ${currentBuild.fullDisplayName}</h1>
+                           <h2><a href="${env.BUILD_URL}cucumber-html-reports/overview-features.html}">Build ${currentBuild.id} Results</a></h2>
+                           <h2><a href="${env.JOB_DISPLAY_URL}">${currentBuild.projectName}</a></h2>
+                           </body>
+                           </html>
+                           """
                            to: 'bmaggioi_l667d@fuluj.com'
-
                           )
                      }
 
