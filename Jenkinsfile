@@ -59,7 +59,7 @@ pipeline {
                            body: """
                            <html>
                            <body>
-                           <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fricardogeek.com%2Fcrea-tu-propia-imagen-docker-de-jenkins%2F&psig=AOvVaw22hQsivEMBGVxv6vjs31z0&ust=1615665421282000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCMC8hO7Eq-8CFQAAAAAdAAAAABAQ" alt="" width="512"  height="512" />
+                           <img src="src/test/resources/jenkins.png" alt="" width="200"  height="200" />
 
                            <h1>Pipeline: ${currentBuild.fullDisplayName}</h1>
                            <h2><a href="${env.BUILD_URL}cucumber-html-reports/overview-features.html">Build ${currentBuild.id} - Results Link </a></h2>
