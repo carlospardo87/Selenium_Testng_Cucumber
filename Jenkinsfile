@@ -47,15 +47,18 @@ pipeline {
                           emailext(
 
                            attachmentsPattern: "report-output/WebReport/ExtentWeb.html",
-                           subject: "STATUS OF PIPELINE: ${currentBuild.result}",
+                           subject: "STATUS OF PIPELINE BUILD: ${currentBuild.result}",
                            mimeType: 'text/html',
                            body: """
                            <html>
                            <body>
                            <center><img src="https://www.redeszone.net/app/uploads-redeszone.net/2018/02/servidores-de-jenkins-infectados-con-malware-que-mina-monero-930x452.png" width="300" height="200"></center>
                            <h1>Pipeline: ${currentBuild.fullDisplayName}</h1>
-                           <h2><a href="${env.BUILD_URL}cucumber-html-reports/overview-features.html"> Results Link - Status <h1>${currentBuild.result}</h1></a></h2>
-                           <h2><a href="${env.JOB_DISPLAY_URL}">Pipeline Summary ${currentBuild.projectName}</a></h2>
+
+                           <h2><a href="${env.BUILD_URL}cucumber-html-reports/overview-features.html"> Cucumber Report Link </a></h2>
+                           <h2><a href="${env.JOB_DISPLAY_URL}"> Jenkins Pipeline Link </a></h2>
+
+                           <h2>Extent Report was attachment in the email</a></h2>
                            </body>
                            </html>
                            """,
