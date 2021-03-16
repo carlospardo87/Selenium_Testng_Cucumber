@@ -7,30 +7,19 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Properties;
 import java.util.concurrent.TimeUnit;
+
+import static runners.CucumberRunner.config;
 
 
 public class BaseStepDef extends DriverManager {
 
     public static List<String> storeId = new ArrayList<>();
-    public static Properties config = null;
-
-
-    public void LoadConfigProperty() throws IOException {
-        config = new Properties();
-
-            FileInputStream confPropertyFile = new FileInputStream(
-                    System.getProperty("user.dir") + "//src//test//resources//config//config.properties");
-            config.load(confPropertyFile);
-    }
 
     public void openBrowser() {
         createInstance(config.getProperty("browserType"), config.getProperty("headlessMode"));
@@ -83,8 +72,11 @@ public class BaseStepDef extends DriverManager {
         return driver.get();
     }
 
-    public void setUp() throws Exception {
-        LoadConfigProperty();
+
+
+    /** Hooks methods **/
+
+    public void setUp() {
         openBrowser();
         maximizeWindow();
         implicitWait(30);

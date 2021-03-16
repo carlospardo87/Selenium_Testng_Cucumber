@@ -7,14 +7,12 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.List;
+import java.util.Properties;
 
 import static helpers.EmailHelper.sendEmailReport;
 import static helpers.ReportHelper.generateCucumberReport;
-import static stepdefinition.BaseStepDef.*;
 import static stepdefinition.BaseStepDef.storeId;
 
 
@@ -38,6 +36,7 @@ public class CucumberRunner extends AbstractTestNGCucumberTests {
 	long timeStart, timeEnd, time;
 	String screenReportDir = System.getProperty("user.dir") + "//report-output//";
 	String rerunFilePath = System.getProperty("user.dir") + "//target//failedrerun.txt";
+	public static Properties config = null;
 
 
 	@Override
@@ -50,6 +49,7 @@ public class CucumberRunner extends AbstractTestNGCucumberTests {
 	public void initEnv() {
 		timeStart = System.currentTimeMillis();
 		deleteScreenshots(screenReportDir, "png");
+		LoadConfigProperty();
 	}
 
 	@AfterSuite(alwaysRun = true)
@@ -57,10 +57,12 @@ public class CucumberRunner extends AbstractTestNGCucumberTests {
 		generateHTMLReports();
 		getRegressionTime();
 		writeFiledScenarios(storeId);
-
 		if (config.getProperty("localEmail").equals("true"))
 		sendEmailReport();
 	}
+
+
+	/*Method section*/
 
 	public void generateHTMLReports() {
 		generateCucumberReport();
@@ -126,6 +128,18 @@ public class CucumberRunner extends AbstractTestNGCucumberTests {
 		System.out.println("\n-----------  REGRESSION TIME ------------------------------------");
 		System.out.println(time + " seconds");
 		System.out.println("-----------------------------------------------------------------");
+	}
+
+	public static void LoadConfigProperty() {
+		config = new Properties();
+		FileInputStream confPropertyFile;
+		try {
+			confPropertyFile = new FileInputStream(
+					System.getProperty("user.dir") + "//src//test//resources//config//config.properties");
+			config.load(confPropertyFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
 

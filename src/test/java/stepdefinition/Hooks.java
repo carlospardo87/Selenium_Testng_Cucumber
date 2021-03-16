@@ -7,7 +7,7 @@ import io.cucumber.java.Scenario;
 public class Hooks extends BaseStepDef {
 
     @Before
-    public void  setupTest(Scenario scenario) throws Exception {
+    public void  setupTest() {
         setUp();
     }
 

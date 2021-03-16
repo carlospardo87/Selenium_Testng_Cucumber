@@ -57,6 +57,7 @@ pipeline {
 
                            <h2><a href="${env.BUILD_URL}cucumber-html-reports/overview-features.html"> Cucumber Report Link </a></h2>
                            <h2><a href="${env.JOB_DISPLAY_URL}"> Jenkins Pipeline Link </a></h2>
+                           <h2><a href="https://reports.cucumber.io/report-collections/eb5a2a36-e155-4e79-8131-ddab047342e7"> Cucumber Report Online </a></h2>
 
                            <h2>Extent Report was attachment in the email</a></h2>
                            </body>

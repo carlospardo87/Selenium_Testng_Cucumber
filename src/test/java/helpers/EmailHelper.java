@@ -1,7 +1,5 @@
 package helpers;
 
-import stepdefinition.BaseStepDef;
-
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
@@ -9,8 +7,9 @@ import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 import java.util.Properties;
+
+import static runners.CucumberRunner.config;
 
 public class EmailHelper {
 
@@ -46,8 +45,8 @@ public class EmailHelper {
 
     public static void sendEmailReport() {
 
-        final String USERNAME = BaseStepDef.config.getProperty("userEmail");
-        final String PASSWORD = BaseStepDef.config.getProperty("passEmail");
+        final String USERNAME = config.getProperty("userEmail");
+        final String PASSWORD = config.getProperty("passEmail");
         final String HOST = "smtp.gmail.com";
         final String PORT = "587";  // Other port available 25, 2525 , 465
 
