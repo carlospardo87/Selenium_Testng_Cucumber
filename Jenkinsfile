@@ -30,18 +30,11 @@ pipeline {
     /* post {
             always {
                cucumber '**//* cucumber.json'
-
                 echo 'Sending email'
                  mail to: 'bmaggioi_l667d@fuluj.com',
                           subject: "Status of pipeline: ${currentBuild.fullDisplayName}",
                           body: "${env.BUILD_URL} has result ${currentBuild.result}",
                           sortingMethod: 'ALPHABETICAL'
-
-
-                          mail to: 'bmaggioi_l667d@fuluj.com',
-                              subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) is waiting for input",
-                              body: "Please go to ${BUILD_URL} and verify the build"
-            }
         } */
 
 
@@ -60,10 +53,16 @@ pipeline {
                            <html>
                            <body>
                            <center><img src="https://www.redeszone.net/app/uploads-redeszone.net/2018/02/servidores-de-jenkins-infectados-con-malware-que-mina-monero-930x452.png" width="300" height="200"></center>
-                           <h1>Pipeline: ${currentBuild.fullDisplayName}</h1>
-                           <h2><a href="${env.BUILD_URL}cucumber-html-reports/overview-features.html">Build ${currentBuild.id} - Results Link </a></h2>
-                           <h2><a href="${env.BUILD_URL}">Build ${currentBuild.id} Results </a></h2>
-                           <h2><a href="${env.JOB_DISPLAY_URL}">Pipeline ${currentBuild.projectName}</a></h2>
+
+                           <table class="default">
+                           <tr><th><h1>Pipeline: ${currentBuild.fullDisplayName}</h1></th></tr>
+
+                           <tr><td><h2><a href="${env.BUILD_URL}cucumber-html-reports/overview-features.html">Build ${currentBuild.id} - Results Link </a></h2></td></tr>
+
+                           <tr><td><h2><a href="${env.JOB_DISPLAY_URL}">Pipeline ${currentBuild.projectName}</a></h2></td></tr>
+                           </table>
+
+
                            </body>
                            </html>
                            """,
