@@ -61,7 +61,6 @@ pipeline {
                            <body>
                            <center><img src="https://www.redeszone.net/app/uploads-redeszone.net/2018/02/servidores-de-jenkins-infectados-con-malware-que-mina-monero-930x452.png" width="300" height="200"></center>
                            <h1>Pipeline: ${currentBuild.fullDisplayName}</h1>
-                           <h1>Feature failed %: ${currentBuild.failedFeaturesPercentage}</h1>
                            <h2><a href="${env.BUILD_URL}cucumber-html-reports/overview-features.html">Build ${currentBuild.id} - Results Link </a></h2>
                            <h2><a href="${env.BUILD_URL}">Build ${currentBuild.id} Results </a></h2>
                            <h2><a href="${env.JOB_DISPLAY_URL}">Pipeline ${currentBuild.projectName}</a></h2>
