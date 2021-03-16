@@ -62,7 +62,7 @@ pipeline {
                            </body>
                            </html>
                            """,
-                           to: 'bmaggioi_l667d@fuluj.com'
+                           to: 'bmaggioi_l667d@fuluj.com','carlospardov87@gmail.com'
                           )
                      }
 
