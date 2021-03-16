@@ -59,34 +59,16 @@ pipeline {
 
 
                            <table>
-                               <colgroup>
-                                   <col style=”background-color: gray”>
-                                   <col span=”2” style=”background-color:yellow;”>
-                               </colgroup>    <thead>
-                                   <tr style=”background-color: black; color:white”>
-                                       <th>País</th>
-                                       <th>Capital</th>
-                                       <th>Otras ciudades</th>
-                                   </tr>
-                                </thead>
-                               <tbody>
-                                   <tr>
-                                       <th>España</th>
-                                       <td>Madrid</td>
-                                       <td>Barcelona, Zaragoza, Sevilla, Valencia,
-                                           Bilbao</td>
-                                   </tr>
-                                   <tr>
-                                       <th>Francia</th>
-                                       <td>París</td>
-                                       <td>Lyon, Marsella, Nantes, Toulouse</td>
-                                   </tr>
-                                   <tr>
-                                       <th>Portugal</th>
-                                       <td>Lisboa</td>
-                                       <td>Oporto, Coimbra</td>
-                                   </tr>
-                               </tbody>
+                                 <tr>
+                                   <td>Celda 01</td>
+                                   <td>Celda 02</td>
+                                   <td>Celda 03</td>
+                                 </tr>
+                                 <tr>
+                                   <td>Celda 04</td>
+                                   <td>Celda 05</td>
+                                   <td>Celda 06</td>
+                                 </tr>
                            </table>
 
 
