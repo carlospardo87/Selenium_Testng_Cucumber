@@ -13,36 +13,6 @@ import static runners.CucumberRunner.config;
 
 public class EmailHelper {
 
-    /**
-     * Note
-     * Firstly we need to configure gmail  Manage your google account -> Security
-     * - Section Sing in to Google - disable the options to add more verifications steps
-     * - Unsafe application access - enable Allow access of insecure applications
-     *
-     * Secondly  we need go to Configuration -> section Access IMAP -> enable IMAP
-     *
-     * Jenkins config
-     * Go to Manage Jenkins -> Configure Systems (Per default the last LTS Jenkins version in the install process, you must install all of plugins that appears per default between them
-     * should be there the plugin to send jenkins email ) :
-     * ---- SECTION JENKINS LOCATION ---
-     * 1- Jenkins URL  (localhost per default)
-     * 2- System Admin e-mail address  (Should have this format: Jenkins Daemon <foo@acme.org>)
-     *
-     *---- SECTION  E-mail Notification ------
-     * 1 - SMTP server =  smtp.gmail.com
-     * 2- Default user e-mail suffix = @gmail
-     * 3- Use SMTP Authentication -> Enable
-     * 4- User Name = user@domain.xx
-     * 5- Password = pass
-     * 6- Use TLS = Enable
-     * 7- Reply-To Address = no-reply@jenkins.foo
-     * 8- Charset = UTF-8
-     *
-     *
-     * **** GENERATE A FAKE EMAIL TO TEST ****
-     * https://tempmail.ninja/
-     */
-
     public static void sendEmailReport() {
 
         final String USERNAME = config.getProperty("userEmail");

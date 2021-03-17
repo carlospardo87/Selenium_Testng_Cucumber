@@ -14,3 +14,10 @@ Feature: create scenarios outline
       |Java8|
       |Protractor|
       |Maven|
+      |Web.com|
+      |Kin+Carta|
+      |FIFA|
+      |Cucumber|
+      |Jmeter|
+      |Menti|
+      |Bitcoins|

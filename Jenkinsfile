@@ -22,7 +22,7 @@ pipeline {
         stage('Test') {
              steps {
              echo 'Running test suite'
-                 sh 'mvn test -Dsuite=testng'
+                 sh 'mvn test -Dsuite=testng -Ddataproviderthreadcount=5'
             }
         }
     }

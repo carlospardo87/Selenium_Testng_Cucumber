@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Testng Cucumber Suite" parallel="tests" verbose="1">
+<suite name="Testng Cucumber Suite" parallel="methods" thread-count="10">
 
-    <test thread-count="4" name="Run All Tests" parallel="methods">
+    <test name="Run All Tests"  parallel="methods" thread-count="10">
         <classes>
             <class name="runners.CucumberRunner"/>
         </classes>
     </test>
-
-    <!--<test thread-count="4" name="Rerun Failed Tests" parallel="methods">
-        <classes>
-            <class name="runners.CucumberRunnerFailed"/>
-        </classes>
-    </test>-->
 </suite>
