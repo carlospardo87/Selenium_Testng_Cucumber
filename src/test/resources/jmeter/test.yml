@@ -6,7 +6,7 @@ execution:
 
 scenarios:
   with_script:
-    script: /Users/carlos-pardo/Desktop/BLAZEdemo.jmx
+    script: https://github.com/carlospardo87/TestngCucumberBoilerPlate/blob/master/src/test/resources/jmeter/jmeterdemo.jmx
     
 reporting:
 - module: final-stats
