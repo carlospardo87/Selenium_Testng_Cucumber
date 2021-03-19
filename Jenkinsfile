@@ -12,18 +12,6 @@ pipeline {
                     '''
                 }
             }
-     stage('get config file') {
-            steps {
-            echo 'Run Jmeter test'
-                sh 'wget https://github.com/carlospardo87/TestngCucumberBoilerPlate/blob/master/src/test/resources/jmeter/test.yml'
-                        }
-                    }
-
-        stage("run test") {
-        steps {
-                sh 'bzt test.yml'
-            }
-        }
 
         stage('Build') {
             steps {
