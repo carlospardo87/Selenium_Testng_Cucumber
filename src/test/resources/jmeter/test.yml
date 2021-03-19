@@ -1,6 +1,6 @@
 execution:
 - iterations: 1
-  concurrency: 50
+  concurrency: 1
   ramp-up: 3s
   scenario: with_script
 

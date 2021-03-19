@@ -12,12 +12,17 @@ pipeline {
                     '''
                 }
             }
-            stage('Jmeter') {
-                        steps {
-                        echo 'Run Jmeter test'
-                           sh 'bzt /Users/carlos-pardo/Desktop/jmeterdemo.jmx'
+     stage('get config file') {
+            steps {
+            echo 'Run Jmeter test'
+                sh 'wget https://github.com/carlospardo87/TestngCucumberBoilerPlate/blob/master/src/test/resources/jmeter/test.yml'
                         }
                     }
+
+        stage("run test") {
+                sh 'bzt test.yml'
+            }
+
 
         stage('Build') {
             steps {
