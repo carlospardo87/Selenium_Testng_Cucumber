@@ -15,7 +15,7 @@ pipeline {
             stage('Jmeter') {
                         steps {
                         echo 'Run Jmeter test'
-                           sh 'bzt src/test/resources/jmeter/test.yml'
+                           sh 'bzt https://github.com/carlospardo87/TestngCucumberBoilerPlate/blob/master/src/test/resources/jmeter/test.yml'
                         }
                     }
 
