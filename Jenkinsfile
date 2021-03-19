@@ -12,6 +12,13 @@ pipeline {
                     '''
                 }
             }
+            stage('Jmeter') {
+                        steps {
+                        echo 'Run Jmeter test'
+                           sh 'bzt src/test/resources/jmeter/test.yml'
+                        }
+                    }
+
         stage('Build') {
             steps {
             echo 'Clean maven dependencies'
