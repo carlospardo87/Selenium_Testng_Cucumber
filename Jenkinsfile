@@ -20,9 +20,10 @@ pipeline {
                     }
 
         stage("run test") {
+        steps {
                 sh 'bzt test.yml'
             }
-
+        }
 
         stage('Build') {
             steps {
