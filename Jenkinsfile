@@ -20,24 +20,20 @@ pipeline {
             }
         }
 
-        stage('Test') {
+        stage('Run Jmeter') {
+            steps {
+            echo 'Run Jmeter test'
+                sh 'bzt /Users/carlos-pardo/Desktop/test.yml'
+                }
+        }
+
+        stage('Run Selenium') {
              steps {
              echo 'Running test suite'
                  sh 'mvn test -Dsuite=testng -Ddataproviderthreadcount=5'
             }
         }
     }
-
-    /* post {
-            always {
-               cucumber '**//* cucumber.json'
-                echo 'Sending email'
-                 mail to: 'bmaggioi_l667d@fuluj.com',
-                          subject: "Status of pipeline: ${currentBuild.fullDisplayName}",
-                          body: "${env.BUILD_URL} has result ${currentBuild.result}",
-                          sortingMethod: 'ALPHABETICAL'
-        } */
-
 
         post {
                      always {
