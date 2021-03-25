@@ -3,14 +3,15 @@ package driver;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.github.bonigarcia.wdm.config.DriverManagerType;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.safari.SafariOptions;
 
+import java.net.MalformedURLException;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,14 +20,28 @@ public class DriverManager {
     public static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
     public void createInstance(String browser, String headlessMode) {
+      /*  URL url = null;
+        try {
+            url = new URL("http://localhost:4444/wd/hub");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }*/
         switch (browser) {
             case "CHROME":
                 WebDriverManager.chromedriver().setup();
-                driver.set(new ChromeDriver(setHeadlessModeChrome(Boolean.parseBoolean(headlessMode))));
+                try {
+                    driver.set(new RemoteWebDriver(URI.create("http://localhost:4444/wd/hub").toURL(),setHeadlessModeChrome(Boolean.parseBoolean(headlessMode))));
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
                 break;
             case "FIREFOX":
                 WebDriverManager.firefoxdriver().setup();
-                driver.set(new FirefoxDriver(setHeadlessModeFirefox(Boolean.parseBoolean(headlessMode))));
+                try {
+                    driver.set(new RemoteWebDriver(URI.create("http://localhost:4444/wd/hub").toURL(),setHeadlessModeFirefox(Boolean.parseBoolean(headlessMode))));
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
                 break;
             case "EDGE":
                 WebDriverManager.edgedriver().setup();
@@ -48,6 +63,11 @@ public class DriverManager {
         options.addArguments("--disable-gpu");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--disable-dev-shm-usage");
+        options.setCapability("selenoid:options", Map.<String, Object>of(
+                "enableVNC", true,
+                "enableVideo", false
+        ));
 
         Map<String, Object> deviceMetrics = new HashMap<>();
         deviceMetrics.put("width", 375);
@@ -60,10 +80,15 @@ public class DriverManager {
                 "Chrome/67.0.3396.99 Mobile Safari/537.36");
         options.setExperimentalOption("mobileEmulation", mobileEmulation);
         return options;
-}
+    }
 
     public FirefoxOptions setHeadlessModeFirefox(boolean headlessMode) {
-        return new FirefoxOptions().setHeadless(Boolean.parseBoolean(String.valueOf(headlessMode)));
+        FirefoxOptions options = new FirefoxOptions().setHeadless(Boolean.parseBoolean(String.valueOf(headlessMode)));
+        options.setCapability("selenoid:options", Map.<String, Object>of(
+                "enableVNC", true,
+                "enableVideo", false
+        ));
+        return options;
     }
 
     public SafariOptions setOptionsSafari() {
