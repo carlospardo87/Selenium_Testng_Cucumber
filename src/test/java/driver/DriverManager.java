@@ -64,10 +64,10 @@ public class DriverManager {
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-dev-shm-usage");
-        options.setCapability("selenoid:options", Map.<String, Object>of(
-                "enableVNC", true,
-                "enableVideo", false
-        ));
+        Map<String, Object> value = new HashMap<>();
+        value.put("enableVNC", true);
+        value.put("enableVideo", false);
+        options.setCapability("selenoid:options", value);
 
         Map<String, Object> deviceMetrics = new HashMap<>();
         deviceMetrics.put("width", 375);
@@ -84,10 +84,10 @@ public class DriverManager {
 
     public FirefoxOptions setHeadlessModeFirefox(boolean headlessMode) {
         FirefoxOptions options = new FirefoxOptions().setHeadless(Boolean.parseBoolean(String.valueOf(headlessMode)));
-        options.setCapability("selenoid:options", Map.<String, Object>of(
-                "enableVNC", true,
-                "enableVideo", false
-        ));
+        Map<String, Object> value = new HashMap<>();
+        value.put("enableVNC", true);
+        value.put("enableVideo", false);
+        options.setCapability("selenoid:options", value);
         return options;
     }
 
