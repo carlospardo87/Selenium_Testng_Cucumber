@@ -20,13 +20,6 @@ pipeline {
             }
         }
 
-        stage('Run Jmeter') {
-            steps {
-            echo 'Run Jmeter test'
-                sh 'bzt /Users/carlos-pardo/Desktop/test.yml'
-                }
-        }
-
         stage('Run Selenium') {
              steps {
              echo 'Running test suite'
