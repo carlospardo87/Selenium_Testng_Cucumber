@@ -4,10 +4,9 @@
 target/
 test-output/
 .DS_Store
-TestngCucumber.iml
 screenshots/
 ._.DS_Store
 .project
-TestngCucumberBoilerPlate.iml
+testng-cucumber-web.iml
 .vscode
 /report-output/
