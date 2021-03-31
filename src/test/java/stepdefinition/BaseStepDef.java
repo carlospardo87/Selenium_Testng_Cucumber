@@ -22,7 +22,7 @@ public class BaseStepDef extends DriverManager {
     public static List<String> storeId = new ArrayList<>();
 
     public void openBrowser() {
-        createInstance(config.getProperty("browserType"), config.getProperty("headlessMode"));
+        createInstance(config.getProperty("browserType"), config.getProperty("headlessMode"), config.getProperty("urlHub"));
     }
 
     public void maximizeWindow() {

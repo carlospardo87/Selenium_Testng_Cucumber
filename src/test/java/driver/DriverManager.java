@@ -3,8 +3,10 @@ package driver;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.github.bonigarcia.wdm.config.DriverManagerType;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
@@ -12,6 +14,7 @@ import org.openqa.selenium.safari.SafariOptions;
 
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,33 +22,31 @@ public class DriverManager {
 
     public static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
-    public void createInstance(String browser, String headlessMode) {
-      /*  URL url = null;
+    public void createInstance(String browser, String headlessMode, String urlWdHub) {
+
+        URL urlHub = null;
         try {
-            url = new URL("http://localhost:4444/wd/hub");
+             urlHub = URI.create(urlWdHub).toURL();
         } catch (MalformedURLException e) {
             e.printStackTrace();
-        }*/
+        }
+
         switch (browser) {
+            case "CHROME_HUB":
+                WebDriverManager.chromedriver().setup();
+                driver.set(new RemoteWebDriver(urlHub,setHeadlessModeChrome(Boolean.parseBoolean(headlessMode))));
+                break;
             case "CHROME":
                 WebDriverManager.chromedriver().setup();
-                try {
-                    driver.set(new RemoteWebDriver(URI.create("http://localhost:4444/wd/hub").toURL(),setHeadlessModeChrome(Boolean.parseBoolean(headlessMode))));
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
+                driver.set(new ChromeDriver(setHeadlessModeChrome(Boolean.parseBoolean(headlessMode))));
+                break;
+            case "FIREFOX_HUB":
+                WebDriverManager.firefoxdriver().setup();
+                driver.set(new RemoteWebDriver(urlHub,setHeadlessModeFirefox(Boolean.parseBoolean(headlessMode))));
                 break;
             case "FIREFOX":
                 WebDriverManager.firefoxdriver().setup();
-                try {
-                    driver.set(new RemoteWebDriver(URI.create("http://localhost:4444/wd/hub").toURL(),setHeadlessModeFirefox(Boolean.parseBoolean(headlessMode))));
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case "EDGE":
-                WebDriverManager.edgedriver().setup();
-                driver.set(new EdgeDriver());
+                driver.set(new FirefoxDriver(setHeadlessModeFirefox(Boolean.parseBoolean(headlessMode))));
                 break;
             case "IEXPLORER":
                 WebDriverManager.iedriver().setup();
@@ -62,7 +63,6 @@ public class DriverManager {
         ChromeOptions options = new ChromeOptions().setHeadless(Boolean.parseBoolean(String.valueOf(headlessMode)));
         options.addArguments("--disable-gpu");
         options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-dev-shm-usage");
         Map<String, Object> value = new HashMap<>();
         value.put("enableVNC", true);
@@ -98,26 +98,5 @@ public class DriverManager {
     }
 
 }
-
-/*
-private static void resolveLocal(String validBrowsers, String arg) {
-  log.info("Using WebDriverManager to resolve {}", arg);
-  try {
-    DriverManagerType driverManagerType = DriverManagerType
-        .valueOf(arg.toUpperCase());
-    WebDriverManager wdm = WebDriverManager
-        .getInstance(driverManagerType).avoidExport()
-        .targetPath(".").forceDownload();
-    if (arg.equalsIgnoreCase("edge")
-        || arg.equalsIgnoreCase("iexplorer")) {
-      wdm.operatingSystem(WIN);
-    }
-    wdm.avoidOutputTree().setup();
-  } catch (Exception e) {
-    log.error("Driver for {} not found (valid browsers {})", arg,
-        validBrowsers);
-  }
-}
- */
 
 
