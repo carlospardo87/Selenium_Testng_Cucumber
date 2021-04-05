@@ -11,3 +11,7 @@ scenarios:
 reporting:
 - module: final-stats
   dump-xml: /Users/carlos-pardo/.jenkins/workspace/TaurusJenkins/stats.xml
+  criterias:
+    - avg-rt>250ms for 30s, continue as failed
+    - failures>10% for 10s, continue as failed
+    - failures>70% for 15s, stop as failed
