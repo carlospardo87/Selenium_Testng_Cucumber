@@ -9,8 +9,6 @@ scenarios:
     script: /Users/carlos-pardo/.jenkins/workspace/LocalPipeline/src/test/java/jMeter/jmeterdemo.jmx
     
 reporting:
-- module: blazemeter
-  test: Smoke Test
 - module: final-stats
   dump-xml: /Users/carlos-pardo/.jenkins/workspace/TaurusJenkins/stats.xml
 - module: passfail
@@ -18,7 +16,3 @@ reporting:
     - avg-rt>250ms for 30s, continue as failed
     - failures>10% for 10s, continue as failed
     - failures>70% for 15s, stop as failed
-
-  modules:
-    blazemeter:
-      token: 50477e50409cb49eac398ad2:2e40d538e4a262b1bb6ebb1dcce2e2b13fe683ab0a824cc3331f7ad5d3ea6b65e9c14a9f
