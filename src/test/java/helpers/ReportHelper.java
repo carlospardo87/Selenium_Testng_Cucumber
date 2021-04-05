@@ -3,6 +3,7 @@ package helpers;
 import net.masterthought.cucumber.Configuration;
 import net.masterthought.cucumber.ReportBuilder;
 import net.masterthought.cucumber.Reportable;
+import static driver.DriverManager.config;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -26,9 +27,12 @@ public class ReportHelper {
         //configuration.setRunWithJenkins(false);
         //configuration.setTagsToExcludeFromChart("@");
 
-        configuration.addClassifications("Platform", System.getProperty("os.name"));
-        configuration.addClassifications("Browser", "Chrome");
-        configuration.addClassifications("Branch", "release/1.0");
+        configuration.addClassifications("OS_Platform", System.getProperty("os.name"));
+        configuration.addClassifications("OS_Version", System.getProperty("os.version"));
+        configuration.addClassifications("Browser_Name", config.getProperty("browser"));
+        configuration.addClassifications("URL_Home", config.getProperty("siteUrl"));
+        configuration.addClassifications("URL_Hub", config.getProperty("urlHub"));
+        configuration.addClassifications("URL_Hub", System.getProperty("systemic.user"));
 
         //configuration.setSortingMethod(SortingMethod.ALPHABETICAL);
 
