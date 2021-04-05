@@ -1,0 +1,13 @@
+execution:
+- iterations: 1
+  concurrency: 1
+  ramp-up: 3s
+  scenario: with_script
+
+scenarios:
+  with_script:
+    script: /Users/carlos-pardo/.jenkins/workspace/LocalPipeline/src/test/java/jMeter/jmeterdemo.jmx
+    
+reporting:
+- module: final-stats
+  dump-xml: /Users/carlos-pardo/.jenkins/workspace/TaurusJenkins/stats.xml
