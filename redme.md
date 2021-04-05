@@ -46,11 +46,14 @@ should be there the plugin to send jenkins email ).
 
 #Selenoid Installation
 
-###Get Docker Mac installer here:
+###Get Docker MacOS installer:
     https://hub.docker.com/editions/community/docker-ce-desktop-mac/
 
 ### Download and install it on MacOS
     curl -s https://aerokube.com/cm/bash | bash && ./cm selenoid start — vnc
+
+### Download browser images 
+    docker pull selenoid/{browserName:browserVersion}
     
 ###Run Selenoid
     ./cm selenoid start — vnc
@@ -58,6 +61,10 @@ should be there the plugin to send jenkins email ).
 ### Run Selenoid GUI
     ./cm selenoid-ui start
 
+### Start and stop docker container 
+./cm selenoid-ui stop
+
+./cm selenoid-ui start --port 8081   (Changing default port 8080 by 8081)
 
 ### Access Selenoid GUI
     http://localhost:8080/

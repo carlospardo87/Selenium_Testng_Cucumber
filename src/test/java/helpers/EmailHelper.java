@@ -7,9 +7,10 @@ import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import java.util.Properties;
 
-import static runners.CucumberRunner.config;
+import static driver.DriverManager.config;
 
 public class EmailHelper {
 
@@ -44,18 +45,15 @@ public class EmailHelper {
             message.setText("Regression status");
 
             MimeBodyPart messageBodyPart = new MimeBodyPart();
-
-            //Multipart multipart = new MimeMultipart();
-
-            messageBodyPart = new MimeBodyPart();
             String file = "path of file to be attached";
             String fileName = "target//cucumber-html-reports//overview-features.html";
             DataSource source = new FileDataSource(file);
             messageBodyPart.setDataHandler(new DataHandler(source));
             messageBodyPart.setFileName(fileName);
-            //multipart.addBodyPart(messageBodyPart);
 
-            //message.setContent(multipart);
+            /*Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(messageBodyPart);
+            message.setContent(multipart);*/
 
             System.out.println("\n-----------  SENDING EMAIL ... -----------------------------------");
             Transport.send(message);

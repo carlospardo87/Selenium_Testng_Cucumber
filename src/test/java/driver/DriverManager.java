@@ -17,10 +17,12 @@ import java.net.URI;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 public class DriverManager {
 
     public static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+    public static Properties config = null;
 
     public void createInstance(String browser, String headlessMode, String urlWdHub) {
 

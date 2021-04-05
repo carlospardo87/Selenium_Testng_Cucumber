@@ -14,6 +14,7 @@ import java.util.Properties;
 import static helpers.EmailHelper.sendEmailReport;
 import static helpers.ReportHelper.generateCucumberReport;
 import static stepdefinition.BaseStepDef.storeId;
+import static driver.DriverManager.config;
 
 
 @CucumberOptions(
@@ -36,7 +37,7 @@ public class CucumberRunner extends AbstractTestNGCucumberTests {
 	long timeStart, timeEnd, time;
 	String screenReportDir = System.getProperty("user.dir") + "//report-output//";
 	String rerunFilePath = System.getProperty("user.dir") + "//target//failedrerun.txt";
-	public static Properties config = null;
+
 
 
 	@Override
@@ -85,19 +86,18 @@ public class CucumberRunner extends AbstractTestNGCucumberTests {
 			try {
 				if (null != fichero)
 					fichero.close();
-				System.out.println("\n-----------  RETRY FILE STATUS ----------------------------------");
-				System.out.println("File is written successfully");
-				System.out.println("-----------------------------------------------------------------");
+
+				if (storeId.isEmpty()) {
+					System.out.println("\n------------------------\n- REGRESSION STATUS SUCCESS\n------------------------");
+				} else {
+					System.out.println("\n------------------------\n- REGRESSION STATUS FAILED");
+					System.out.println("Scenarios Failed for Retry :\n" + storeId);
+					System.out.println("------------------------\n");
+				}
 			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
 		}
-
-		System.out.println("\n-----------  SCENARIOS FAILED -----------------------------------");
-		if (storeId.isEmpty())
-			System.out.println("There are not failed scenarios");
-		else System.out.println(" "+ storeId +" ");
-		System.out.println("-----------------------------------------------------------------");
 	}
 
 	public void deleteScreenshots(String path, String extension) {
@@ -125,9 +125,9 @@ public class CucumberRunner extends AbstractTestNGCucumberTests {
 		timeEnd = System.currentTimeMillis();
 		time = (timeEnd - timeStart) / 1000;
 
-		System.out.println("\n-----------  REGRESSION TIME ------------------------------------");
-		System.out.println(time + " seconds");
-		System.out.println("-----------------------------------------------------------------");
+		System.out.print("------------------------\n");
+		System.out.print("- REGRESSION TIME (sec) "+ time);
+		System.out.print("\n------------------------\n");
 	}
 
 	public static void LoadConfigProperty() {

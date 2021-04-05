@@ -14,15 +14,21 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static runners.CucumberRunner.config;
 
 
 public class BaseStepDef extends DriverManager {
 
     public static List<String> storeId = new ArrayList<>();
 
+    /*
+    * If mvn command contains -Dbrowser={Chrome, Firefox, etc..}  it will run this browser  else it takes the browser properties into the config.properties file
+    * */
     public void openBrowser() {
-        createInstance(config.getProperty("browserType"), config.getProperty("headlessMode"), config.getProperty("urlHub"));
+        if (System.getProperty("browser") != null) {
+            createInstance(System.getProperty("browser").toUpperCase(), config.getProperty("headlessMode"), config.getProperty("urlHub"));
+        } else {
+            createInstance(config.getProperty("browserType").toUpperCase(), config.getProperty("headlessMode"), config.getProperty("urlHub"));
+        }
     }
 
     public void maximizeWindow() {

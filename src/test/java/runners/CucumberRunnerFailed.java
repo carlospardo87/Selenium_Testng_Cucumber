@@ -8,9 +8,11 @@ import org.testng.annotations.DataProvider;
 
 import java.io.*;
 import java.util.List;
+import java.util.Properties;
 
 import static helpers.ReportHelper.generateCucumberReport;
 import static stepdefinition.BaseStepDef.storeId;
+import static driver.DriverManager.config;
 
 
 @CucumberOptions(
@@ -45,6 +47,7 @@ public class CucumberRunnerFailed extends AbstractTestNGCucumberTests {
 		checkRerunFileExist(rerunFilePath);
 		timeStart = System.currentTimeMillis();
 		deleteScreenshots(screenReportDir, "png");
+		LoadConfigProperty();
 	}
 
 	@AfterSuite(alwaysRun = true)
@@ -76,19 +79,20 @@ public class CucumberRunnerFailed extends AbstractTestNGCucumberTests {
 			try {
 				if (null != fichero)
 					fichero.close();
-				System.out.println("\n-----------  RETRY FILE STATUS --------------------------------------");
-				System.out.println("File is written successfully");
-				System.out.println("-----------------------------------------------------------------");
+
+				if (storeId.isEmpty()) {
+					System.out.println("\n------------------------\n- REGRESSION STATUS SUCCESS\n------------------------");
+				} else {
+					System.out.println("\n------------------------\n- REGRESSION STATUS FAILED");
+					System.out.println("Scenarios Failed for Retry :\n" + storeId);
+					System.out.println("------------------------\n");
+				}
 			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
 		}
 
-		System.out.println("\n-----------  SCENARIOS FAILED --------------------------------------");
-		if (storeId.isEmpty())
-			System.out.println("There are not failed scenarios");
-		else System.out.println(" "+ storeId +" ");
-		System.out.println("-----------------------------------------------------------------");
+
 	}
 
 	public void deleteScreenshots(String path, String extension){
@@ -116,9 +120,9 @@ public class CucumberRunnerFailed extends AbstractTestNGCucumberTests {
 		timeEnd = System.currentTimeMillis();
 		time = (timeEnd - timeStart) / 1000;
 
-		System.out.println("\n-------------------REGRESSION TIME-------------- ");
-		System.out.println("                 " + time + " seconds           ");
-		System.out.println("---------------------------------------------");
+		System.out.print("------------------------\n");
+		System.out.print("- REGRESSION TIME (sec) "+ time);
+		System.out.print("\n------------------------");
 	}
 
 	public void checkRerunFileExist(String rerunFilePath) {
@@ -130,6 +134,18 @@ public class CucumberRunnerFailed extends AbstractTestNGCucumberTests {
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(0);
+		}
+	}
+
+	public static void LoadConfigProperty() {
+		config = new Properties();
+		FileInputStream confPropertyFile;
+		try {
+			confPropertyFile = new FileInputStream(
+					System.getProperty("user.dir") + "//src//test//resources//config//config.properties");
+			config.load(confPropertyFile);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 

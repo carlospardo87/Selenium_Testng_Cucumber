@@ -17,4 +17,4 @@ Feature: Created scenarios inline
   Scenario: Looking for word Nike
     Given I type "Nike"
     When I click search button
-    Then I clear search text box
+    Then I clear search textbox
