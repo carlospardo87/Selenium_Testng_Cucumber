@@ -17,7 +17,7 @@ public class ReportHelper {
         ArrayList<String> jsonFiles = new ArrayList<>();
         jsonFiles.add("target/cucumber.json");
 
-        String projectName = "testng-cucumber";
+        String projectName = "testng-cucumber-parallel";
         String buildNumber = "1";
 
 
@@ -32,7 +32,8 @@ public class ReportHelper {
         configuration.addClassifications("Browser_Name", config.getProperty("browser"));
         configuration.addClassifications("URL_Home", config.getProperty("siteUrl"));
         configuration.addClassifications("URL_Hub", config.getProperty("urlHub"));
-        configuration.addClassifications("URL_Hub", System.getProperty("systemic.user"));
+        configuration.addClassifications("Parallel", "TRUE");
+        configuration.addClassifications("QA", System.getProperty("user.name"));
 
         //configuration.setSortingMethod(SortingMethod.ALPHABETICAL);
 
@@ -42,10 +43,9 @@ public class ReportHelper {
 
 
         // optionally add metadata presented on main page via properties file
-        List<String> classificationFiles = new ArrayList<>();
-        classificationFiles.add("src/test/resources/config/config.properties");
-        configuration.addClassificationFiles(classificationFiles);
-        configuration.addClassifications("Parallel", "TRUE");
+        //List<String> classificationFiles = new ArrayList<>();
+        //classificationFiles.add("src/test/resources/config/config.properties");
+        //configuration.addClassificationFiles(classificationFiles);
 
 
         ReportBuilder reportBuilder = new ReportBuilder(jsonFiles, configuration);
