@@ -1,7 +1,9 @@
 execution:
-- iterations: 1
-  concurrency: 1
+- concurrency: 1
+  iterations: 1
   ramp-up: 1s
+  hold-for:
+  throughput:
   scenario: with_script
 
 scenarios:
@@ -9,11 +11,27 @@ scenarios:
     script: /Users/carlos-pardo/.jenkins/workspace/JMeterJob/src/test/java/jMeter/jmeterdemo.jmx
     
 reporting:
-- module: blazemeter
-- module: final-stats
-  dump-xml: /Users/carlos-pardo/.jenkins/workspace/JMeterJob/stats.xml
-- module: passfail
-  criterias:
-    - avg-rt>250ms for 30s, continue as failed
-    - failures>10% for 10s, continue as failed
-    - failures>70% for 15s, stop as failed
+  - module: blazemeter
+    test: Taurus Demo B
+  - module: junit-xml
+    filename: /Users/carlos-pardo/.jenkins/workspace/JMeterJob/junit.xml
+    data-source: pass-fail
+  - module: final-stats
+    dump-xml: /Users/carlos-pardo/.jenkins/workspace/JMeterJob/stats.xml
+  - module: passfail
+    criterias:
+      - avg-rt>6000ms for 10s, continue as failed
+      - avg-rt>5s for 1m, continue as failed
+      - avg-rt of Confirmation>5s for 30s, continue as failed
+      - failures>70% for 15s, stop as failed
+
+settings:
+  check-interval: 5
+
+modules:
+  blazemeter:
+    token: 50477e50409cb49eac398ad2:2e40d538e4a262b1bb6ebb1dcce2e2b13fe683ab0a824cc3331f7ad5d3ea6b65e9c14a9f
+    browser-open: false
+  console:
+    disable: true
+
