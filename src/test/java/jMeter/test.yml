@@ -6,11 +6,11 @@ execution:
 
 scenarios:
   with_script:
-    script: /Users/carlos-pardo/.jenkins/workspace/LocalPipeline/src/test/java/jMeter/jmeterdemo.jmx
+    script: /Users/carlos-pardo/.jenkins/workspace/JMeter_Master/src/test/java/jMeter/jmeterdemo.jmx
     
 reporting:
 - module: final-stats
-  dump-xml: /Users/carlos-pardo/.jenkins/workspace/TaurusJenkins/stats.xml
+  dump-xml: /Users/carlos-pardo/.jenkins/workspace/JMeter_Master/stats.xml
 - module: passfail
   criterias:
     - avg-rt>250ms for 30s, continue as failed
