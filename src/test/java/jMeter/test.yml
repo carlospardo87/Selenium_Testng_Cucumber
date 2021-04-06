@@ -13,9 +13,6 @@ scenarios:
 reporting:
   - module: blazemeter
     test: Taurus Demo B
-  - module: junit-xml
-    filename: /Users/carlos-pardo/.jenkins/workspace/JMeterJob/junit.xml
-    data-source: pass-fail
   - module: final-stats
     dump-xml: /Users/carlos-pardo/.jenkins/workspace/JMeterJob/stats.xml
   - module: passfail
